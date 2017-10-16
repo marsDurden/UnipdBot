@@ -9,6 +9,7 @@ import datetime
 import logging
 from telegram import InlineKeyboardButton
 
+config = ConfigParser.ConfigParser()
 config.read('settings.ini')
 listUrl = str(config.get('orario', 'listUrl'))
 orarioUrl = str(config.get('orario', 'orarioUrl'))
