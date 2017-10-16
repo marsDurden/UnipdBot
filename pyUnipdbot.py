@@ -32,7 +32,8 @@ SELEZIONA = "Seleziona una voce dalla tastiera!"
 
 
 def home():
-    markup = [['/mensa', '/aulastudio'],
+    markup = [['/orario'],
+              ['/mensa', '/aulastudio'],
               ['/biblioteca', '/udupadova'],
               ['/diritto_studio', '/botinfo']]
     return HOME, markup
@@ -82,7 +83,7 @@ def udupadova():
 
 
 def botInfo():
-    return BOTINFO, [['/home']]
+    return BOTINFO, [["/home"]]
 
 
 def commandList():
@@ -221,3 +222,4 @@ def writedb(mdict):
     with con:
         cur = con.cursor()
         cur.execute("INSERT INTO log VALUES (?,?,?,?,?,?,?,?)", (a, b, c, d, e, f, g, h))
+    con.close()
