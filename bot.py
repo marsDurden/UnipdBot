@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from telegram import ReplyKeyboardMarkup, ParseMode, Bot
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler # ultimo aggiunto
+from telegram import ReplyKeyboardMarkup, ParseMode, Bot, InlineKeyboardButton, InlineKeyboardMarkup # ultime 2 aggiunte
 import logging
 import pyUnipdbot
 import ConfigParser
+import pyOrarioParser
 
 config = ConfigParser.ConfigParser()
 config.read('settings.ini')
 token = str(config.get('main', 'token'))
 servicetoken = str(config.get('main', 'servicetoken'))
+botAdminID = str(config.get('main', 'admin'))
 
 TOPCOMMANDS = ['start', 'home', 'help', 'botinfo',
                'mensa', 'aulastudio', 'biblioteca',
@@ -23,6 +25,8 @@ if str(config.get('main', 'logging')) == "INFO":
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         level=logging.INFO)
+elif str(config.get('main', 'logging')) == "NONE":
+    pass
 else:
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -36,7 +40,7 @@ def home(bot, update):
     reply, markup = pyUnipdbot.home()
     bot.sendMessage(update.message.chat_id,
                     text=reply,
-                    reply_markup=ReplyKeyboardMarkup(markup))
+                    reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
 
 def botinfo(bot, update):
@@ -45,7 +49,7 @@ def botinfo(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id,
                     text=reply,
                     parse_mode=ParseMode.MARKDOWN,
-                    reply_markup=ReplyKeyboardMarkup(markup))
+                    reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
 
 def mensa(bot, update):
@@ -54,7 +58,7 @@ def mensa(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id,
                     text=reply,
                     parse_mode=ParseMode.MARKDOWN,
-                    reply_markup=ReplyKeyboardMarkup(markup))
+                    reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
 
 def aulastudio(bot, update):
@@ -62,7 +66,7 @@ def aulastudio(bot, update):
     reply, markup = pyUnipdbot.aulastudio()
     bot.sendMessage(update.message.chat_id,
                     text=reply,
-                    reply_markup=ReplyKeyboardMarkup(markup))
+                    reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
 
 def biblioteca(bot, update):
@@ -70,7 +74,7 @@ def biblioteca(bot, update):
     reply, markup = pyUnipdbot.biblioteca()
     bot.sendMessage(update.message.chat_id,
                     text=reply,
-                    reply_markup=ReplyKeyboardMarkup(markup))
+                    reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
 
 def dirittostudio(bot, update):
@@ -78,7 +82,7 @@ def dirittostudio(bot, update):
     reply, markup = pyUnipdbot.dirittostudio()
     bot.sendMessage(update.message.chat_id,
                     text=reply,
-                    reply_markup=ReplyKeyboardMarkup(markup))
+                    reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
 
 def udupadova(bot, update):
@@ -86,8 +90,31 @@ def udupadova(bot, update):
     reply, markup = pyUnipdbot.udupadova()
     bot.sendMessage(update.message.chat_id,
                     text=reply,
-                    reply_markup=ReplyKeyboardMarkup(markup))
+                    reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
+def orario(bot, update):
+    bot.sendChatAction(chat_id=update.message.chat_id,
+                       action="typing")
+    pyUnipdbot.writedb(update.message.to_dict())
+    reply, keyboard = pyOrarioParser.orarioSetup(update.message.chat_id, resetDate = True)
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    bot.sendMessage(update.message.chat_id,
+                    text=reply,
+                    parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=reply_markup)
+
+def orarioButton(bot, update):
+    query = update.callback_query
+    if pyOrarioParser.newOrario(query.message.chat_id, query.data.replace("data-", "")):
+        bot.sendChatAction(chat_id=query.message.chat_id,
+                       action="typing")
+        reply, keyboard = pyOrarioParser.orarioSaveSetting(query.message.chat_id, query.data)
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        bot.editMessageText(text=reply,
+                            chat_id=query.message.chat_id,
+                            message_id=query.message.message_id,
+                            parse_mode=ParseMode.MARKDOWN,
+                            reply_markup=reply_markup)
 
 def replier(bot, update):
     pyUnipdbot.writedb(update.message.to_dict())
@@ -97,7 +124,7 @@ def replier(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id,
                     text=reply,
                     parse_mode=ParseMode.MARKDOWN,
-                    reply_markup=ReplyKeyboardMarkup(markup))
+                    reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
     if lat is not None and lon is not None:
         bot.sendLocation(update.message.chat_id,
                          latitude=lat,
@@ -114,7 +141,7 @@ def position(bot, update):
         bot.sendMessage(chat_id=update.message.chat_id,
                         text=reply,
                         parse_mode=ParseMode.MARKDOWN,
-                        reply_markup=ReplyKeyboardMarkup(markup))
+                        reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
     except:
         pass
 
@@ -126,11 +153,11 @@ def simpleText(bot, update):
     text = ""
     try:
         text += str(msg['from']['id'])
-        bot.sendMessage(chat_id=27002116,
+        bot.sendMessage(chat_id=botAdminID,
                         text=text)
     except:
         pass
-    bot.forwardMessage(chat_id=27002116,
+    bot.forwardMessage(chat_id=botAdminID,
                        from_chat_id=update.message.chat_id,
                        message_id=update.message.message_id)
 
@@ -139,14 +166,14 @@ def admin_reply(bot, update, args):
     msg = update.message.to_dict()
     pyUnipdbot.writedb(msg)
     servicer = Bot(token=servicetoken)
-    if update.message.from_user.id == 27002116:
+    if update.message.from_user.id == botAdminID:
         try:
             tmp = "/reply " + args[0] + " "
             sent = bot.sendMessage(chat_id=args[0],
                                    text=(update.message.text).replace(tmp, ""))
-            servicer.sendMessage(chat_id=27002116, text=str(sent))
+            servicer.sendMessage(chat_id=botAdminID, text=str(sent))
         except:
-            servicer.sendMessage(chat_id=27002116, text="error happened") 
+            servicer.sendMessage(chat_id=botAdminID, text="error happened") 
     else:
         bot.sendMessage(chat_id=update.message.chat_id,
                         text="error - you're not powerful enough")
@@ -155,7 +182,7 @@ def admin_reply(bot, update, args):
 
 def error(bot, update, error):
     try:
-        ch_id = "27002116"
+        ch_id = str(botAdminID)
         starter = Bot(token=token)
         txt = "An error happened"
         starter.sendMessage(ch_id, text=txt)
@@ -183,6 +210,9 @@ def main():
     dp.addHandler(CommandHandler("biblioteca", biblioteca))
     dp.addHandler(CommandHandler("udupadova", udupadova))
     dp.addHandler(CommandHandler("diritto_studio", dirittostudio))
+    
+    dp.addHandler(CommandHandler("orario", orario))
+    dp.addHandler(CallbackQueryHandler(orarioButton))
 
     for command in commands:
         dp.addHandler(CommandHandler(command, replier))
@@ -202,16 +232,16 @@ def main():
     dp.addErrorHandler(error)
     updater.start_polling()
 
-    ch_id = "27002116"
+    ch_id = str(botAdminID)
     starter = Bot(token=token)
 
     txt = "I'm starting"
-    starter.sendMessage(ch_id, text=txt)
+    #starter.sendMessage(ch_id, text=txt)
 
     updater.idle()
 
     txt = "Bot stopped!"
-    starter.sendMessage(ch_id, text=txt)
+    #starter.sendMessage(ch_id, text=txt)
 
 if __name__ == '__main__':
     main()
