@@ -6,7 +6,7 @@ import requests
 import json
 import sqlite3
 import datetime
-import logging
+import ConfigParser
 from telegram import InlineKeyboardButton
 
 config = ConfigParser.ConfigParser()
