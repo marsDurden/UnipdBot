@@ -5,3 +5,8 @@ logging = LOGGING_LEVEL
 api = API_URL
 prodtoken = production_token
 servicetoken = service_token
+admin = telegram_id_admin
+
+[orario]
+listUrl = url_list_courses
+orarioUrl = url_orari_lezioni
