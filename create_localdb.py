@@ -11,7 +11,7 @@ config = ConfigParser.ConfigParser()
 config.read('settings.ini')
 
 token = str(config.get('main', 'servicetoken'))
-ch_id = "27002116"
+ch_id = str(config.get('main', 'admin'))
 starter = Bot(token=token)
 txt = "Updating local unipdbot database"
 starter.sendMessage(ch_id, text=txt)
