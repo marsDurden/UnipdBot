@@ -166,7 +166,7 @@ def admin_reply(bot, update, args):
     msg = update.message.to_dict()
     pyUnipdbot.writedb(msg)
     servicer = Bot(token=servicetoken)
-    if update.message.from_user.id == botAdminID:
+    if update.message.from_user.id == int(botAdminID):
         try:
             tmp = "/reply " + args[0] + " "
             sent = bot.sendMessage(chat_id=args[0],
