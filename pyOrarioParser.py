@@ -182,7 +182,7 @@ def orarioSaveSetting(idUser, value):
     if "anno_studi-" in value:
         c.execute("UPDATE orario_setting SET anno_studi = '" + str(value).replace("anno_studi-", "") + "' WHERE u_id = '" + str(idUser) + "'")
         con.commit()
-        return orarioSetup(idUser)
+        return orarioSetup(idUser, resetDate = True)
     if "setting" in value:
         c.execute("DELETE FROM orario_setting WHERE u_id = '" + str(idUser) + "'")
         con.commit()
