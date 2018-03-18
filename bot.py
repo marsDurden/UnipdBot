@@ -147,12 +147,16 @@ def position(bot, update):
 
 
 def simpleText(bot, update):
-    print "running simpletext"
+    #print "running simpletext"
     msg = update.message.to_dict()
     pyUnipdbot.writedb(msg)
     text = ""
     try:
-        text += str(msg['from']['id'])
+        text = '*'+ str(msg['from']['first_name']) +' '+ str(msg['from']['last_name']) +'*\n@'+ str(msg['from']['username'])
+        bot.sendMessage(chat_id=botAdminID,
+                        parse_mode=ParseMode.MARKDOWN,
+                        text=text)
+        text = str(msg['from']['id'])
         bot.sendMessage(chat_id=botAdminID,
                         text=text)
     except:
@@ -171,7 +175,7 @@ def admin_reply(bot, update, args):
             tmp = "/reply " + args[0] + " "
             sent = bot.sendMessage(chat_id=args[0],
                                    text=(update.message.text).replace(tmp, ""))
-            servicer.sendMessage(chat_id=botAdminID, text=str(sent))
+            #servicer.sendMessage(chat_id=botAdminID, text=str(sent))
         except:
             servicer.sendMessage(chat_id=botAdminID, text="error happened") 
     else:
@@ -197,39 +201,40 @@ def main():
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
+    #print dir(dp)
 
     # on different commands - answer in Telegram
-    dp.addHandler(CommandHandler("help", home))
-    dp.addHandler(CommandHandler("start", home))
-    dp.addHandler(CommandHandler("home", home))
+    dp.add_handler(CommandHandler("help", home))
+    dp.add_handler(CommandHandler("start", home))
+    dp.add_handler(CommandHandler("home", home))
 
-    dp.addHandler(CommandHandler("botinfo", botinfo))
+    dp.add_handler(CommandHandler("botinfo", botinfo))
 
-    dp.addHandler(CommandHandler("mensa", mensa))
-    dp.addHandler(CommandHandler("aulastudio", aulastudio))
-    dp.addHandler(CommandHandler("biblioteca", biblioteca))
-    dp.addHandler(CommandHandler("udupadova", udupadova))
-    dp.addHandler(CommandHandler("diritto_studio", dirittostudio))
+    dp.add_handler(CommandHandler("mensa", mensa))
+    dp.add_handler(CommandHandler("aulastudio", aulastudio))
+    dp.add_handler(CommandHandler("biblioteca", biblioteca))
+    dp.add_handler(CommandHandler("udupadova", udupadova))
+    dp.add_handler(CommandHandler("diritto_studio", dirittostudio))
     
-    dp.addHandler(CommandHandler("orario", orario))
-    dp.addHandler(CallbackQueryHandler(orarioButton))
+    dp.add_handler(CommandHandler("orario", orario))
+    dp.add_handler(CallbackQueryHandler(orarioButton))
 
     for command in commands:
-        dp.addHandler(CommandHandler(command, replier))
+        dp.add_handler(CommandHandler(command, replier))
 
-    dp.addHandler(CommandHandler("reply", admin_reply, pass_args=True))
+    dp.add_handler(CommandHandler("reply", admin_reply, pass_args=True))
 
-    dp.addHandler(MessageHandler([Filters.location], position))
-    dp.addHandler(MessageHandler([Filters.text], simpleText))
-    dp.addHandler(MessageHandler([Filters.audio], simpleText))
-    dp.addHandler(MessageHandler([Filters.photo], simpleText))
-    dp.addHandler(MessageHandler([Filters.document], simpleText))
-    dp.addHandler(MessageHandler([Filters.sticker], simpleText))
-    dp.addHandler(MessageHandler([Filters.video], simpleText))
-    dp.addHandler(MessageHandler([Filters.voice], simpleText))
-    dp.addHandler(MessageHandler([Filters.contact], simpleText))
+    dp.add_handler(MessageHandler([Filters.location], position))
+    dp.add_handler(MessageHandler([Filters.text], simpleText))
+    dp.add_handler(MessageHandler([Filters.audio], simpleText))
+    dp.add_handler(MessageHandler([Filters.photo], simpleText))
+    dp.add_handler(MessageHandler([Filters.document], simpleText))
+    dp.add_handler(MessageHandler([Filters.sticker], simpleText))
+    dp.add_handler(MessageHandler([Filters.video], simpleText))
+    dp.add_handler(MessageHandler([Filters.voice], simpleText))
+    dp.add_handler(MessageHandler([Filters.contact], simpleText))
 
-    dp.addErrorHandler(error)
+    dp.add_error_handler(error)
     updater.start_polling()
 
     ch_id = str(botAdminID)

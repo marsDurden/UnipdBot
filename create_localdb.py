@@ -16,12 +16,16 @@ starter = Bot(token=token)
 txt = "Updating local unipdbot database"
 starter.sendMessage(ch_id, text=txt)
 
-HEADERS = {'content-type': 'application/json'}
-URL = str(config.get('main', 'api'))
+xApi = config.get('uniopen', 'api-token')
+
+HEADERS = {'content-type': 'application/json',
+          'x-api-key': str(xApi)}
+URL = str(config.get('uniopen', 'url'))
 
 db = pickledb.load('db/unipdbot.pickledb', False)
 
 mensa = requests.get(URL + 'mensa/', headers=HEADERS).json()
+#print mensa
 del mensa['last_update']
 for key in mensa:
     if mensa[key]['calendario']['pranzo'] == 1:

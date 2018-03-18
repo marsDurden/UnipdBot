@@ -9,11 +9,13 @@ from geopy.distance import vincenty
 import datetime
 import ConfigParser
 
-HEADERS = {'content-type': 'application/json'}
-
 config = ConfigParser.ConfigParser()
 config.read('settings.ini')
-URL = str(config.get('main', 'api'))
+URL = config.get('uniopen', 'url')
+xApi = config.get('uniopen', 'api-token')
+
+HEADERS = {'content-type': 'application/json',
+          'x-api-key': str(xApi)}
 
 HOME = """
 Seleziona un comando dalla tastiera!
@@ -91,7 +93,7 @@ def commandList():
     mList = []
     for key in requests.get(URL + 'mensa/', headers=HEADERS).json():
         mList.append(key)
-    mList.remove('last_update')
+    #mList.remove('last_update')
     for key in requests.get(URL + 'aulastudio/', headers=HEADERS).json():
         mList.append(key)
     for key in requests.get(URL + 'biblioteca/', headers=HEADERS).json():
