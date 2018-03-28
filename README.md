@@ -19,8 +19,8 @@ Just some simple instructions if you want to test the bot
 - Rename settings.ini.sample to settings.ini
 - Create an access token with Telegram's @Botfather and place it in `settings.ini`. 
 - Create an access token with Botan (for analytics) and place it in `settings.ini`. 
-- Switch into the `db` folder and run `python createdb_logs.py`.
 - Run `create_localdb.py` to create a local `pickledb` database in which you'll store commands. 
+- Switch into the `db` folder and run `python createdb_logs.py`.
 
 
 ### License and credits
