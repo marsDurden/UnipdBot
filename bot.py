@@ -1,18 +1,19 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler # ultimo aggiunto
 from telegram import ReplyKeyboardMarkup, ParseMode, Bot, InlineKeyboardButton, InlineKeyboardMarkup # ultime 2 aggiunte
 import logging
 import pyUnipdbot
 import ConfigParser
 import pyOrarioParser
+import pyStats
+import create_localdb as pyUpdateDB
 
 config = ConfigParser.ConfigParser()
 config.read('settings.ini')
 token = str(config.get('main', 'token'))
-servicetoken = str(config.get('main', 'servicetoken'))
 botAdminID = str(config.get('main', 'admin'))
+janitorID = str(config.get('main', 'janitor'))
 
 TOPCOMMANDS = ['start', 'home', 'help', 'botinfo',
                'mensa', 'aulastudio', 'biblioteca',
@@ -48,8 +49,7 @@ def botinfo(bot, update):
     reply, markup = pyUnipdbot.botInfo()
     bot.sendMessage(chat_id=update.message.chat_id,
                     text=reply,
-                    parse_mode=ParseMode.MARKDOWN,
-                    reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
+                    parse_mode=ParseMode.MARKDOWN)
 
 
 def mensa(bot, update):
@@ -106,8 +106,7 @@ def orario(bot, update):
 def orarioButton(bot, update):
     query = update.callback_query
     if pyOrarioParser.newOrario(query.message.chat_id, query.data.replace("data-", "")):
-        bot.sendChatAction(chat_id=query.message.chat_id,
-                       action="typing")
+        bot.sendChatAction(chat_id=query.message.chat_id, action="typing")
         reply, keyboard = pyOrarioParser.orarioSaveSetting(query.message.chat_id, query.data)
         reply_markup = InlineKeyboardMarkup(keyboard)
         bot.editMessageText(text=reply,
@@ -121,10 +120,33 @@ def replier(bot, update):
     command = str(update.message.text).replace('/', '')
     command.lower()
     reply, markup, lat, lon = pyUnipdbot.replier(command)
-    bot.sendMessage(chat_id=update.message.chat_id,
-                    text=reply,
-                    parse_mode=ParseMode.MARKDOWN,
-                    reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
+    if command == 'controguida':
+        markup = [[InlineKeyboardButton('Controguida', url=markup)]]
+        markup = InlineKeyboardMarkup(markup)
+        bot.sendMessage(chat_id=update.message.chat_id,
+                        text=reply,
+                        parse_mode=ParseMode.MARKDOWN,
+                        reply_markup=markup)
+    elif command == 'borse':
+        markup = markup.split()
+        markup = [[InlineKeyboardButton('Bando a.a. 2017/18', url=markup[0])],[InlineKeyboardButton('Calcolatore tasse', url=markup[1])],[InlineKeyboardButton('FAQ utili', url=markup[2])]]
+        markup = InlineKeyboardMarkup(markup)
+        bot.sendMessage(chat_id=update.message.chat_id,
+                        text=reply,
+                        parse_mode=ParseMode.MARKDOWN,
+                        reply_markup=markup)
+    elif command == '200ore':
+        markup = markup.split()
+        markup = [[InlineKeyboardButton('Bando a.a. 2017/18', url=markup[0])],[InlineKeyboardButton('Graduatoria a.a. 2017/18', url=markup[1])],[InlineKeyboardButton('Regolamento', url=markup[2])]]
+        markup = InlineKeyboardMarkup(markup)
+        bot.sendMessage(chat_id=update.message.chat_id,
+                        text=reply,
+                        parse_mode=ParseMode.MARKDOWN,
+                        reply_markup=markup)
+    else:
+        bot.sendMessage(chat_id=update.message.chat_id,
+                        text=reply,
+                        parse_mode=ParseMode.MARKDOWN)
     if lat is not None and lon is not None:
         bot.sendLocation(update.message.chat_id,
                          latitude=lat,
@@ -147,7 +169,6 @@ def position(bot, update):
 
 
 def simpleText(bot, update):
-    #print "running simpletext"
     msg = update.message.to_dict()
     pyUnipdbot.writedb(msg)
     text = ""
@@ -156,20 +177,23 @@ def simpleText(bot, update):
         bot.sendMessage(chat_id=botAdminID,
                         parse_mode=ParseMode.MARKDOWN,
                         text=text)
-        text = str(msg['from']['id'])
-        bot.sendMessage(chat_id=botAdminID,
-                        text=text)
     except:
         pass
     bot.forwardMessage(chat_id=botAdminID,
                        from_chat_id=update.message.chat_id,
                        message_id=update.message.message_id)
+    try:
+        text = str(msg['from']['id'])
+        bot.sendMessage(chat_id=botAdminID,
+                        text=text)
+    except:
+        pass
 
 
 def admin_reply(bot, update, args):
     msg = update.message.to_dict()
-    pyUnipdbot.writedb(msg)
-    servicer = Bot(token=servicetoken)
+    #pyUnipdbot.writedb(msg)
+    servicer = Bot(token=token)
     if update.message.from_user.id == int(botAdminID):
         try:
             tmp = "/reply " + args[0] + " "
@@ -182,14 +206,44 @@ def admin_reply(bot, update, args):
         bot.sendMessage(chat_id=update.message.chat_id,
                         text="error - you're not powerful enough")
 
+def admin_stats(bot, update, args):
+    try:
+        text = pyStats.stats()
+        if update.message.from_user.id == int(botAdminID):
+            bot.sendMessage(chat_id=botAdminID, parse_mode=ParseMode.MARKDOWN, text=text)
+            servicer = Bot(token=token)
+            if args[0] == 'log': servicer.send_document(chat_id=botAdminID, document=open('/home/udupd/UnipdBot/db/logs.db', 'rb'))
+            elif args[0] == 'bot': servicer.send_document(chat_id=botAdminID, document=open('/home/udupd/bot.tar.gz', 'rb'))
+        elif update.message.from_user.id == int(janitorID):
+            bot.sendMessage(chat_id=janitorID, parse_mode=ParseMode.MARKDOWN, text=text)
+    except:
+        pass
 
+def admin_update(bot, update, args):
+    if update.message.from_user.id == int(botAdminID):
+        text = pyUpdateDB.main()
+        bot.sendMessage(chat_id=botAdminID, text=text)
+
+def admin_search(bot, update, args):
+    msg = update.message.to_dict()
+    if update.message.from_user.id == int(botAdminID):
+        try:
+            tmp = "/search "
+            text = pyStats.search((update.message.text).replace(tmp, ""))
+            if text == '': text = 'Trovato niente'
+            sent = bot.sendMessage(chat_id=botAdminID,
+                                   text=text)
+        except Exception as inst:
+            print type(inst)     # the exception instance
+            print inst.args      # arguments stored in .args
+            print inst
 
 def error(bot, update, error):
     try:
         ch_id = str(botAdminID)
         starter = Bot(token=token)
         txt = "An error happened"
-        starter.sendMessage(ch_id, text=txt)
+        starter.sendMessage(ch_id, text=('Update "%s" caused error "%s"' % (update, error)))
     except:
         pass
     logger.warn('Update "%s" caused error "%s"' % (update, error))
@@ -201,7 +255,6 @@ def main():
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
-    #print dir(dp)
 
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("help", home))
@@ -223,6 +276,10 @@ def main():
         dp.add_handler(CommandHandler(command, replier))
 
     dp.add_handler(CommandHandler("reply", admin_reply, pass_args=True))
+    dp.add_handler(CommandHandler("stats", admin_stats, pass_args=True))
+    dp.add_handler(CommandHandler("update", admin_update, pass_args=True))
+    dp.add_handler(CommandHandler("search", admin_search, pass_args=True))
+
 
     dp.add_handler(MessageHandler([Filters.location], position))
     dp.add_handler(MessageHandler([Filters.text], simpleText))
@@ -241,12 +298,12 @@ def main():
     starter = Bot(token=token)
 
     txt = "I'm starting"
-    #starter.sendMessage(ch_id, text=txt)
+    starter.sendMessage(ch_id, text=txt)
 
     updater.idle()
 
     txt = "Bot stopped!"
-    #starter.sendMessage(ch_id, text=txt)
+    starter.sendMessage(ch_id, text=txt)
 
 if __name__ == '__main__':
     main()

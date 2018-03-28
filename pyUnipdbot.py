@@ -1,6 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 import arrow
 import requests
 import sqlite3
@@ -22,9 +21,9 @@ Seleziona un comando dalla tastiera!
 """
 BOTINFO = """
 I dati sulle mense sono ottenuti automaticamente dal sito dell'ESU di Padova.
-@UnipdBot è promosso e sponsorizzato da @udupadova e sviluppato da @mikexine. 
+@UnipdBot è promosso e sponsorizzato da @udupadova e sviluppato da @mikexine e @ThanksLory. 
 *Lascia una recensione*, cercaci su @storebot!
-Per qualunque problema o suggerimento, scrivi a @mikexine qua su Telegram!
+Per qualunque problema o suggerimento, scrivi a @ThanksLory qua su Telegram!
 
 
 Vuoi dare una mano? Visita https://uniopen.org o scrivi direttamente al bot :) 
@@ -173,6 +172,7 @@ def position(usrCoord):
     markup.append(['/'+nearMensa.encode("utf-8")])
     markup.append(['/'+nearAula.encode("utf-8")])
     markup.append(['/'+nearBiblio.encode("utf-8")])
+    markup.append(['/home'])
 
     return reply, markup
 

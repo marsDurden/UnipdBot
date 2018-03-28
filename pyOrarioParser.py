@@ -1,6 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 import urllib2
 import requests
 import json
@@ -123,12 +122,16 @@ def orarioSetup(idUser, resetDate = False):
     )
     orario = requests.post(orarioUrl, data=payload)
     orario = json.loads(orario.content)
-    
+    #print json.dumps(orario, indent=4, sort_keys=True)    
+
+    orario = orario["celle"]
+    orario = sorted(orario, key=lambda d: d["timestamp"])
     reply2 = ""
-    for cella in orario["celle"]:
+    for cella in orario:
         if cella["data"] == data:
             reply2 += cella["nome_insegnamento"] + "\nore: " + cella["orario"] + "\naula: _" + cella["aula"] + "_\n\n"
-    
+    #print json.dumps(orarioOrdinato, indent=4, sort_keys=True) 
+
     data = datetime.datetime.strptime(data, '%d-%m-%Y')
     
     tmpDay = data - datetime.timedelta(days=2)
@@ -155,7 +158,7 @@ def orarioSetup(idUser, resetDate = False):
     reply1 = "*Orario di " + giorni[data.strftime("%A")] + data.strftime(" %d/%m/%Y") + ":*\n"
     reply = ""
     if reply2 == "":
-        reply = "*Oggi relax!*"
+        reply = giorni[data.strftime("%A")] + data.strftime(" %d/%m/%Y") + ":\n*Oggi relax!*"
     else:
         reply = reply1 + reply2
     
@@ -164,7 +167,7 @@ def orarioSetup(idUser, resetDate = False):
    
 
 def orarioSaveSetting(idUser, value):
-    con = sqlite3.connect("db/logs.db")
+    con = sqlite3.connect("/db/logs.db")
     c = con.cursor()
     # Inserimento dati
     if "anno-" in value:
