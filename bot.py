@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler # ultimo aggiunto
-from telegram import ReplyKeyboardMarkup, ParseMode, Bot, InlineKeyboardButton, InlineKeyboardMarkup # ultime 2 aggiunte
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
+from telegram import ReplyKeyboardMarkup, ParseMode, Bot, InlineKeyboardButton, InlineKeyboardMarkup
 import logging
 import pyUnipdbot
 import ConfigParser
@@ -189,6 +189,18 @@ def simpleText(bot, update):
     except:
         pass
 
+def cerca(bot, update):
+    bot.sendChatAction(chat_id=update.message.chat_id,
+                       action="typing")
+    msg = update.message.to_dict()
+    pyUnipdbot.writedb(msg)
+    reply, markup = pyCerca.cerca((update.message.text).replace('/cerca ', ""))
+    markup =  [[InlineKeyboardButton(markup['text'], url=markup['url'])]]
+    markup = InlineKeyboardMarkup(markup)
+    bot.sendMessage(chat_id=update.message.chat_id,
+                    text=reply,
+                    parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=markup)
 
 def admin_reply(bot, update, args):
     msg = update.message.to_dict()
@@ -268,6 +280,7 @@ def main():
     dp.add_handler(CommandHandler("biblioteca", biblioteca))
     dp.add_handler(CommandHandler("udupadova", udupadova))
     dp.add_handler(CommandHandler("diritto_studio", dirittostudio))
+    dp.add_handler(CommandHandler("cerca", cerca))
     
     dp.add_handler(CommandHandler("orario", orario))
     dp.add_handler(CallbackQueryHandler(orarioButton))
