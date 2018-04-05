@@ -3,10 +3,8 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from telegram import ReplyKeyboardMarkup, ParseMode, Bot, InlineKeyboardButton, InlineKeyboardMarkup
 import logging
-import pyUnipdbot
+import pyUnipdbot, pyStats, pyOrarioParser, pyCerca
 import ConfigParser
-import pyOrarioParser
-import pyStats
 import create_localdb as pyUpdateDB
 
 config = ConfigParser.ConfigParser()
