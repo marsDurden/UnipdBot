@@ -86,7 +86,6 @@ def update_database():
                 )
                 orario = requests.post(orario_url, data=payload)
                 orario = json.loads(orario.content)
-                print(json.dumps(orario, indent=4))
                 orario = orario['celle']
                 try:
                     if orario[0]["tipo"] == "chiusura_type": del orario[0]
@@ -139,41 +138,42 @@ def orarioSetup(idUser, lang_str, resetDate=False):
         # Iserisce l'utente per la prima volta
         c.execute("INSERT INTO Orario(u_id, anno, scuola, corso, anno_studi, ultima_data, alarm) VALUES('" + str(idUser) + "',?,?,?,?,?,?)", (None, None, None, None, None, None))
         con.commit()
+    
     # Guarda se l'utente e' gia' settato
+    elenco_anni = json.load(open(orario_path + 'elenco_anni.json'))
     for row in c.execute('SELECT anno FROM Orario WHERE u_id = "' + str(idUser) + '"' ):
         if row[0] is None:
-            for tmp1 in elenco_corsi:
-                keyboard.append([InlineKeyboardButton(tmp1["label"], callback_data="anno-"+str(tmp1["valore"]) )])
+            for tmp1 in elenco_anni:
+                keyboard.append([InlineKeyboardButton(elenco_anni[tmp1]["label"], callback_data="anno-"+str(elenco_anni[tmp1]["valore"]) )])
             return "*" + lang_str['text'][0] + "*\n\n" + lang_str['text'][1], keyboard
         else:
             anno = row[0]
+    
+    elenco_scuole = json.load(open(orario_path + anno + '/elenco_scuole.json'))
+    elenco_corsi = json.load(open(orario_path + anno + '/elenco_corsi.json'))
     for row in c.execute('SELECT scuola FROM Orario WHERE u_id = "' + str(idUser) + '"' ):
         if row[0] is None:
             for tmp1 in elenco_scuole:
-                keyboard.append( [ InlineKeyboardButton(tmp1["label"].replace("Scuola di ",""), callback_data=tmp1["valore"]) ] )
+                keyboard.append( [ InlineKeyboardButton(elenco_scuole[tmp1]["label"].replace("Scuola di ",""), callback_data=elenco_scuole[tmp1]["valore"]) ] )
             keyboard.append([InlineKeyboardButton("- reset -", callback_data="reset_orario") ])
             return "*" + lang_str['text'][0] + "*\n\n" + lang_str['text'][2], keyboard
         else:
             scuola = row[0]
     for row in c.execute('SELECT corso FROM Orario WHERE u_id = "' + str(idUser) + '"' ):
         if row[0] is None:
-            for tmpAnno in elenco_corsi:
-                if tmpAnno["valore"] == anno:
-                    for tmpScuola in tmpAnno["elenco"]:
-                        if tmpScuola["scuola"] == scuola:
-                            keyboard.append( [ InlineKeyboardButton(tmpScuola["label"].split('- ', 1)[-1], callback_data="corso-"+tmpScuola["valore"]) ] )
+            for tmpScuola in elenco_corsi["elenco"]:
+                if tmpScuola["scuola"] == scuola:
+                    keyboard.append( [ InlineKeyboardButton(tmpScuola["label"].split('- ', 1)[-1], callback_data="corso-"+tmpScuola["valore"]) ] )
             keyboard.append([InlineKeyboardButton("- reset -", callback_data="reset_orario") ])
             return "*" + lang_str['text'][0] + "*\n\n" + lang_str['text'][3], keyboard
         else:
             corso = row[0]
     for row in c.execute('SELECT anno_studi FROM Orario WHERE u_id = "' + str(idUser) + '"' ):
         if row[0] is None:
-            for tmpAnno in elenco_corsi:
-                if tmpAnno["valore"] == anno:
-                    for tmpScuola in tmpAnno["elenco"]:
-                        if tmpScuola["valore"] == corso:
-                            for tmpCorso in tmpScuola["elenco_anni"]:
-                                keyboard.append( [ InlineKeyboardButton(tmpCorso["label"], callback_data="anno_studi-"+tmpCorso["valore"]) ] )
+            for tmpScuola in elenco_corsi["elenco"]:
+                if tmpScuola["valore"] == corso:
+                    for tmpCorso in tmpScuola["elenco_anni"]:
+                        keyboard.append( [ InlineKeyboardButton(tmpCorso["label"], callback_data="anno_studi-"+tmpCorso["valore"]) ] )
             keyboard.append([InlineKeyboardButton("- reset -", callback_data="reset_orario") ])
             return "*" + lang_str['text'][0] + "*\n\n" + lang_str['text'][4], keyboard
         else:
