@@ -2,9 +2,12 @@
 *.db
 *.ini
 *.log
+*.json
+*.pdf
 test.py
 test2.py
 /old
+/new
 .DS_Store
 *.pickledb
 env/
