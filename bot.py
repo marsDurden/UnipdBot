@@ -38,9 +38,8 @@ def admin(func):
 def bottleneck(func):
     @wraps(func)
     def wrapped(update, context, *args, **kwargs):
-        
         # Autoban system
-        bans = 
+        bans = []
         user_id = context.message.chat.id
         if user_id not in bans:
             return func(update, context, *args, **kwargs)
