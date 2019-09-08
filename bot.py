@@ -360,8 +360,8 @@ def error(bot, update, error):
 
 def load_jobs(jq):
     for u_id in get_enabled_alarm_users():
-        print('Loaded job for {}'.format(u_id))
         set_alarm(u_id, u_id, jq)
+    print("Jobs loaded")
 
 def main():
     # Run bot
@@ -397,12 +397,12 @@ def main():
 
     # Subcommands
     dp.add_handler(CommandHandler(languages.get_command_handlers('sub_commands'), sub_command))
-    
+
     dp.add_handler(CommandHandler(config.sub_commands, sub_command))
 
     # Orario
     dp.add_handler(CommandHandler(languages.get_command_handlers('orario'), orario))
-    
+
     dp.add_handler(CallbackQueryHandler(callbackButton,
                                 pass_job_queue=True,
                                 pass_chat_data=True))
