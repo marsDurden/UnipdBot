@@ -15,7 +15,7 @@ from captions import Captions
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+                    level=logging.WARNING)
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +29,7 @@ def admin(func):
         # Set administrators of bot
         admins = [config.botAdminID]
         # Get user ID of message
-        user_id = context.message.chat.id
+        user_id = update.message.chat.id
         if user_id in admins:
             return func(update, context, *args, **kwargs)
         return
@@ -49,82 +49,82 @@ def bottleneck(func):
 
 # Update Handlers
 @bottleneck
-def start(bot, update):
+def start(update, context):
     # TODO User privacy disclaimer
     new_user(update)
-    home(bot, update)
+    home(update, context)
 
 @bottleneck
-def home(bot, update):
+def home(update, context):
     chat_id = get_chat_id(update)
     reply = languages.get_reply('home', lang=get_lang(update))
     if chat_id > 0:
         markup = languages.get_keyboard('home', lang=get_lang(update))
         # Add location button to keyboard
         markup[3][0] = KeyboardButton(text=str(markup[3][0]), request_location=True)
-        bot.sendMessage(chat_id=chat_id,
+        context.bot.sendMessage(chat_id=chat_id,
                     text=reply,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
     else:
         markup = languages.get_keyboard('home', lang=get_lang(update), isGroup=True)
-        bot.sendMessage(chat_id=chat_id,
+        context.bot.sendMessage(chat_id=chat_id,
                     text=reply,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
 @bottleneck
-def mensa(bot, update):
+def mensa(update, context):
     reply = languages.get_reply('mensa', lang=get_lang(update))
     markup = languages.get_keyboard('mensa', lang=get_lang(update))
-    bot.sendMessage(chat_id=get_chat_id(update),
+    context.bot.sendMessage(chat_id=get_chat_id(update),
                     text=reply,
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
 @bottleneck
-def aulastudio(bot, update):
+def aulastudio(update, context):
     reply = languages.get_reply('aulastudio', lang=get_lang(update))
     markup = languages.get_keyboard('aulastudio', lang=get_lang(update))
-    bot.sendMessage(chat_id=get_chat_id(update),
+    context.bot.sendMessage(chat_id=get_chat_id(update),
                     text=reply,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
 @bottleneck
-def biblioteca(bot, update):
+def biblioteca(update, context):
     reply = languages.get_reply('biblioteca', lang=get_lang(update))
     markup = languages.get_keyboard('biblioteca', lang=get_lang(update))
-    bot.sendMessage(chat_id=get_chat_id(update),
+    context.bot.sendMessage(chat_id=get_chat_id(update),
                     text=reply,
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
 @bottleneck
-def dirittostudio(bot, update):
+def dirittostudio(update, context):
     reply = languages.get_reply('diritto_studio', lang=get_lang(update))
     markup = languages.get_keyboard('diritto_studio', lang=get_lang(update))
-    bot.sendMessage(chat_id=get_chat_id(update),
+    context.bot.sendMessage(chat_id=get_chat_id(update),
                     text=reply,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
 @bottleneck
-def udupadova(bot, update):
+def udupadova(update, context):
     reply = languages.get_reply('udupadova', lang=get_lang(update))
     markup = languages.get_keyboard('udupadova', lang=get_lang(update))
-    bot.sendMessage(chat_id=get_chat_id(update),
+    context.bot.sendMessage(chat_id=get_chat_id(update),
                     text=reply,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
 @bottleneck
-def botinfo(bot, update):
+def botinfo(update, context):
     reply = languages.get_reply('botinfo', lang=get_lang(update))
     markup = [[InlineKeyboardButton('Source code on Github', url='https://github.com/marsDurden/UnipdBot')]]
     markup = InlineKeyboardMarkup(markup)
-    bot.sendMessage(chat_id=get_chat_id(update),
+    context.bot.sendMessage(chat_id=get_chat_id(update),
                     text=reply,
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=markup)
 
 @bottleneck
-def sub_command(bot, update):
+def sub_command(update, context):
     # Save message
     save_msg(update)
 
@@ -140,27 +140,29 @@ def sub_command(bot, update):
     if inline:
         markup = [[InlineKeyboardButton(text=line['text'], url=line['url'])] for line in markup.values()]
         markup = InlineKeyboardMarkup(markup)
-        bot.sendMessage(chat_id=chat_id,
+        context.bot.sendMessage(chat_id=chat_id,
                         text=reply,
                         parse_mode=ParseMode.MARKDOWN,
                         reply_markup=markup)
     else:
-        bot.sendMessage(chat_id=chat_id,
+        context.bot.sendMessage(chat_id=chat_id,
                         text=reply,
                         parse_mode=ParseMode.MARKDOWN)
 
     if lat is not None and lon is not None:
-        bot.sendLocation(chat_id=chat_id,
+        context.bot.sendLocation(chat_id=chat_id,
                          latitude=lat,
                          longitude=lon)
 
 @bottleneck
-def cerca(bot, update, args):
+def cerca(update, context):
     # Save message
     save_msg(update)
+    
+    args = context.args
 
     chat_id = get_chat_id(update)
-    bot.sendChatAction(chat_id=chat_id,
+    context.bot.sendChatAction(chat_id=chat_id,
                        action="typing")
 
     reply, markup = cerca_facile('%20'.join(args), languages.get_reply('cerca', lang=get_lang(update)))
@@ -168,23 +170,23 @@ def cerca(bot, update, args):
     if markup is not None:
         markup =  [[InlineKeyboardButton(markup['text'], url=markup['url'])]]
         markup = InlineKeyboardMarkup(markup)
-        bot.sendMessage(chat_id=chat_id,
+        context.bot.sendMessage(chat_id=chat_id,
                         text=reply,
                         parse_mode=ParseMode.MARKDOWN,
                         reply_markup=markup)
     else:
-        bot.sendMessage(chat_id=chat_id,
+        context.bot.sendMessage(chat_id=chat_id,
                         text=reply,
                         parse_mode=ParseMode.MARKDOWN)
 
 @bottleneck
-def orario(bot, update):
+def orario(update, context):
     u_id = str(update.message.from_user.id)
     chat_id = update.message.chat_id
     lang_str = languages.get_reply('orario', lang=get_lang('', u_id=u_id))
     reply, keyboard = orarioSetup(chat_id, lang_str, resetDate=True)
     reply_markup = InlineKeyboardMarkup(keyboard)
-    bot.sendMessage(chat_id=chat_id,
+    context.bot.sendMessage(chat_id=chat_id,
                     text=reply,
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=reply_markup)
@@ -226,11 +228,11 @@ def callbackButton(bot, update, job_queue, chat_data):
                         reply_markup=reply_markup)
 
 @bottleneck
-def settings(bot, update):
+def settings(update, context):
     reply = languages.get_reply('settings', lang=get_lang(update))
     reply, keyboard = get_user_settings(update, reply)
     reply_markup = InlineKeyboardMarkup(keyboard)
-    bot.sendMessage(chat_id=get_chat_id(update),
+    context.bot.sendMessage(chat_id=get_chat_id(update),
                     text=reply,
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=reply_markup)
@@ -265,46 +267,46 @@ def unset_alarm(chat_id, job_queue):
             job.schedule_removal()
 
 @bottleneck
-def position(bot, update):
+def position(update, context):
     # Save message
     save_loc(update)
 
     usrCoord = update.message.location
     reply, markup = languages.reply_position(usrCoord, lang=get_lang(update))
-    bot.sendMessage(chat_id=get_chat_id(update),
+    context.bot.sendMessage(chat_id=get_chat_id(update),
                     text=reply,
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
 @bottleneck
-def simpleText(bot, update):
+def simpleText(update, context):
     cmd = update.message.text.lower().strip().replace("\\","").replace("/","").replace("%","")
     inoltra = False
     if cmd in ['mensa', 'menu', 'menù']:
-        mensa(bot, update)
+        mensa(update, context)
     elif cmd in ['help','info', 'aiuto']:
-        botinfo(bot, update)
+        botinfo(update, context)
     elif cmd in ['orari', 'orario']:
-        orario(bot, update)
+        orario(update, context)
     elif cmd in ['biblioteca', 'biblio']:
         biblioteca(bot,update)
     elif cmd in ['home','start']:
-        home(bot, update)
+        home(update, context)
     elif cmd in ['aulastudio', 'aula studio', 'aule studio']:
-        aulastudio(bot, update)
+        aulastudio(update, context)
     elif cmd in ['impostazioni']:
-        settings(bot, update)
+        settings(update, context)
     elif cmd in config.sub_commands:
-        sub_command(bot, update)
+        sub_command(update, context)
     elif cmd == 'pio x':
         update.message.text = 'acli'
-        sub_command(bot, update)
+        sub_command(update, context)
     elif cmd.find("sds") >= 0 or cmd.find("sindacato degli studenti") >= 0:
         bot.sendMessage(chat_id=update.message.chat_id,
                         text="Sindacato degli Studenti?\nNe ho sentito parlare, non ho ancora avuto il piacere di conoscere il loro BOT")
         inoltra = True
     elif cmd in ['votare', 'votazioni', 'seggi', 'seggio', 'elezioni']:
-        seggi(bot, update)
+        seggi(update, context)
     else:
         inoltra = True
 
@@ -312,50 +314,46 @@ def simpleText(bot, update):
         # Save message
         save_msg(update)
         # Forward message to admin
-        bot.forwardMessage(chat_id=config.botAdminID,
+        context.bot.forwardMessage(chat_id=config.botAdminID,
                            from_chat_id=update.message.chat_id,
                            disable_notification=True,
                            message_id=update.message.message_id)
         text = '<code>/reply ' + str(update.message.chat.id) + '</code>'
-        bot.sendMessage(chat_id=config.botAdminID,
+        context.bot.sendMessage(chat_id=config.botAdminID,
                         parse_mode=ParseMode.HTML,
                         disable_notification=True,
                         text=text)
 
 @admin
-def admin_forward(bot, update):
-    bot.forwardMessage(chat_id=config.botAdminID,
+def admin_forward(update, context):
+    context.bot.forwardMessage(chat_id=config.botAdminID,
                        from_chat_id=get_chat_id(update),
                        message_id=update.message.message_id)
 
 @admin
-def admin_reply(bot, update, args):
+def admin_reply(update, context):
+    args = context.args
     msg = update.message.to_dict()
     servicer = Bot(token=config.bot_token)
     try:
         tmp = "/reply " + args[0] + " "
-        sent = bot.sendMessage(chat_id=args[0],
+        sent = context.bot.sendMessage(chat_id=args[0],
                                text=(update.message.text).replace(tmp, ""))
         servicer.sendMessage(chat_id=config.botAdminID, text='Messaggio inviato a '+str(sent['chat']['first_name']))
     except:
         servicer.sendMessage(chat_id=config.botAdminID, parse_mode=ParseMode.MARKDOWN, text="*ERRORE*\nMessaggio non inviato") 
 
 @admin
-def admin_update(bot, update):
+def admin_update(update, context):
     languages.update_mense()
-    bot.sendMessage(chat_id=config.botAdminID, text='Mense: updated\nJson reloaded')
-    try:
-        bot.send_document(chat_id=config.botAdminID, document=open('./../bot.tar.gz', 'rb'))
-    except:
-        pass
+    context.bot.sendMessage(chat_id=config.botAdminID, text='Mense: updated\nJson reloaded')
 
-def error(bot, update, error):
+def error(update, context):
     try:
-        #starter = Bot(token=config.bot_token)
-        bot.sendMessage(str(config.botAdminID),parse_mode=ParseMode.MARKDOWN, text=('*ERROR*\nID: `%s`\ntext: %s\ncaused error: _%s_' % (update['message']['chat']['id'], update['message']['text'], error)))
+        context.bot.sendMessage(str(config.botAdminID),parse_mode=ParseMode.MARKDOWN, text=('*ERROR*\nID: `%s`\ntext: %s\ncaused error: _%s_' % (update['message']['chat']['id'], update['message']['text'], context.error)))
     except:
         pass
-    logger.warn('Update "%s" caused error "%s"' % (update, error))
+    logger.warn('Update "%s" caused error "%s"' % (update, context.error))
 
 def load_jobs(jq):
     for u_id in get_enabled_alarm_users():
@@ -365,7 +363,7 @@ def load_jobs(jq):
 def main():
     # Run bot
     # Create the Updater and pass it your bot's token.
-    updater = Updater(config.bot_token)
+    updater = Updater(config.bot_token, use_context=True)
 
     job_queue = updater.job_queue
 
@@ -390,7 +388,7 @@ def main():
 
     dp.add_handler(CommandHandler(languages.get_command_handlers('diritto_studio'), dirittostudio))
 
-    dp.add_handler(CommandHandler(languages.get_command_handlers('cerca'), cerca, pass_args=True))
+    dp.add_handler(CommandHandler(languages.get_command_handlers('cerca'), cerca))
 
     dp.add_handler(CommandHandler(languages.get_command_handlers('impostazioni'), settings))
 
@@ -425,7 +423,7 @@ def main():
     dp.add_error_handler(error)
 
     # Load user daily_orario jobs
-    load_jobs(job_queue)
+    #load_jobs(job_queue)
 
     # Start the Bot
     updater.start_polling()
