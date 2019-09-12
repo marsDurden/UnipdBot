@@ -1,0 +1,109 @@
+{
+  "bibliodiritto":{
+    "type": 1,
+    "title": "Biblioteca di Diritto Privato e Critica del Diritto",
+    "address": "Via VIII Febbraio 2 - Palazzo del Bo (3: piano)",
+    "timetable": "Lunedì - Giovedì: 08:30 - 19:15, Venerdì: 08:30 - 17:00"},
+    
+  "filosofia":{
+    "type": 1,
+    "title": "Biblioteca di Filosofia",
+    "address": "Piazza Capitanato, 3",
+    "timetable": "Lunedì - Venerdì 8:30 - 19:45"},
+    
+  "ingegneria":{
+    "type": 1,
+    "title": "Biblioteca Centrale di Ingegneria",
+    "address": "Via Loredan, 20 - 35131 Padova",
+    "timetable": "Lunedì - Giovedì 8:00-19:45, Venerdì 8:00-18:15"},
+    
+  "someda":{
+    "type": 1,
+    "title": " Biblioteca DEI Giovanni Someda",
+    "address": "via Giovanni Gradenigo 6A",
+    "timetable": "Lunedì - Giovedì 8:30-19:15, Venerdì 8:30-17:30"},
+    
+  "maldura":{
+    "type": 1,
+    "title": "Biblioteca Maldura",
+    "address": "Piazzetta Gianfranco Folena, 1",
+    "timetable": "Lunedì - Venerdì: 8:30-22:00, Sabato: 9:00-12:45"},
+    
+  "matematica":{
+    "type": 1,
+    "title": "Biblioteca di Matematica",
+    "address": "Via Trieste, 63",
+    "timetable": "Lunedì - Venerdì: 8:30 - 23:00"},
+    
+  "storia":{
+    "type": 1,
+    "title": "Biblioteca di Storia",
+    "address": "via Vescovado, 30",
+    "timetable": "Lunedì - Venerdì: 9:00 - 19:45"},
+    
+  "metelli":{
+    "type": 1,
+    "title": "Biblioteca di Psicologia Metelli",
+    "address": "via Venezia 12/2",
+    "timetable": "Lunedì - Venerdì: 8:30 - 22:00, Sabato: 9:00 - 14:00"},
+    
+  "pinali":{
+    "type": 1,
+    "title": "Biblioteca Pinali",
+    "address": "via Giustiniani, 2",
+    "timetable": "Lunedì - Venerdì: 8:00 - 22:00, Sabato: 9:00 - 13:00"},
+    
+  "caborin":{
+    "type": 1,
+    "title": "Biblioteca Ca'Borin",
+    "address": "Via del Santo, 22",
+    "timetable": "Lunedì - Venerdì: 9:00 - 22:45, Sabato - Domenica: 9:15 - 18:00"},
+    
+  "cuzabarella":{
+    "type": 1,
+    "title": "Centro Universitario Zabarella",
+    "address": "Via Zabarella, 82",
+    "timetable": "Lunedì - Venerdì: 07:00 - 19:00"},
+    
+  "universitaria":{
+    "type": 1,
+    "title": "Biblioteca Universitaria",
+    "address": "via San Biagio, 7",
+    "timetable": "Lunedì - Venerdì 8:30 – 19:30, Sabato 8:30 – 13:30"},
+    
+  "bibliochimica":{
+    "type": 1,
+    "title": "Biblioteca di Chimica Cesare Pecile",
+    "address": "Via Marzolo 1",
+    "timetable": "Lunedì - Venerdì: 8:00 - 18:00"},
+    
+  "agribiblio":{
+    "type": 1,
+    "title": "Biblioteca Centrale di Agripolis",
+    "address": "Viale dell'Università, 16, Legnaro (PD)",
+    "timetable": "Lunedì - Venerdì: 8:20 - 18:00"},
+    
+  "bibliogeo":{
+    "type": 1,
+    "title": "Biblioteca di Geoscienze",
+    "address": "Via G: Gradenigo, 6 ",
+    "timetable": "Lunedì - Giovedì: 8:00 - 17:30, Venerdì: 8:00 - 14:00"},
+    
+  "sangaetano":{
+    "type": 1,
+    "title": "Biblioteca civica - Centro culturale Altinate/San Gaetano",
+    "address": "Via Altinate, 71",
+    "timetable": "Lunedì - Sabato 8:30 - 24:00, Domenica 15:00 - 20:00"},
+    
+  "liviano":{
+    "type": 1,
+    "title": "Biblioteca di Scienze dell'Antichità Arte Musica Liviano",
+    "address": "piazza Capitaniato, 5 (lato Arco Valaresso)",
+    "timetable": "Lunedì - Venerdì: 8:30-23:00, Sabato - Domenica: 9:30-18:30"},
+    
+  "bibliofarmacia":{
+    "type": 1,
+    "title": "Biblioteca di Scienze del Farmaco",
+    "address": "via Jappelli, 1 bis",
+    "timetable": "Lunedì - Giovedì: 8:15 - 18:00, Venerdì: 8:15 - 14:00"}
+}

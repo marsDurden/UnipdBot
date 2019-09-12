@@ -1,0 +1,151 @@
+{
+    "sanfrancesco": {
+        "type": 2,
+        "pranzo": {
+            "aperta": false,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": "",
+            "apertura": "",
+            "chiusura": ""
+        },
+        "cena": {
+            "aperta": false,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": ""
+        },
+        "nome": "San Francesco",
+        "indirizzo": "Via S. Francesco, 122"
+    },
+    "piovego": {
+        "type": 2,
+        "pranzo": {
+            "aperta": true,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": "",
+            "apertura": "11:30",
+            "chiusura": "14:30"
+        },
+        "cena": {
+            "aperta": false,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": ""
+        },
+        "nome": "Nord Piovego",
+        "indirizzo": "viale Colombo 1"
+    },
+    "agripolis": {
+        "type": 2,
+        "pranzo": {
+            "aperta": true,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": "",
+            "apertura": "11:45",
+            "chiusura": "14:30"
+        },
+        "cena": {
+            "aperta": false,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": ""
+        },
+        "nome": "Agripolis",
+        "indirizzo": "viale Universit\u00e0 16, Legnaro"
+    },
+    "acli": {
+        "type": 2,
+        "pranzo": {
+            "aperta": false,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": "",
+            "apertura": "11:30",
+            "chiusura": "14:30"
+        },
+        "cena": {
+            "aperta": false,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": ""
+        },
+        "nome": "Acli - Pio X",
+        "indirizzo": "Via Bonporti 20"
+    },
+    "belzoni": {
+        "type": 2,
+        "pranzo": {
+            "aperta": false,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": "",
+            "apertura": "11:45",
+            "chiusura": "14:30"
+        },
+        "cena": {
+            "aperta": false,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": ""
+        },
+        "nome": "Belzoni",
+        "indirizzo": "Via Belzoni, 146"
+    },
+    "forcellini": {
+        "type": 2,
+        "pranzo": {
+            "aperta": false,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": "",
+            "apertura": "11:45",
+            "chiusura": "14:30"
+        },
+        "cena": {
+            "aperta": false,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": ""
+        },
+        "nome": "Forcellini",
+        "indirizzo": "Via Forcellini, 172"
+    },
+    "murialdo": {
+        "type": 2,
+        "pranzo": {
+            "aperta": false,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": "",
+            "apertura": "11:45",
+            "chiusura": "14:30"
+        },
+        "cena": {
+            "aperta": false,
+            "primo": "",
+            "secondo": "",
+            "contorno": "",
+            "dessert": "",
+            "apertura": "19:15",
+            "chiusura": "20:45"
+        },
+        "nome": "Murialdo",
+        "indirizzo": "Via Grassi 42"
+    }
+}

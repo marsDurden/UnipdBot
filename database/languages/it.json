@@ -1,0 +1,144 @@
+{
+  "home":{
+    "type": 0,
+    "reply": "Seleziona un comando dalla tastiera!"},
+  "mensa":{
+    "type": 0,
+    "reply": "Seleziona una mensa dall'elenco qui sotto"},
+  "aulastudio":{
+    "type": 0,
+    "reply": "Seleziona un'aula studio dall'elenco qui sotto"},
+  "biblioteca":{
+    "type": 0,
+    "reply": "Seleziona una biblioteca dall'elenco qui sotto"},
+  "diritto_studio":{
+    "type": 0,
+    "reply": "Seleziona una voce dalla tastiera"},
+  "udupadova":{
+    "type": 0,
+    "reply": "Seleziona una voce dalla tastiera!"},
+  "botinfo":{
+    "type": 0,
+    "reply": "I dati sulle mense sono ottenuti automaticamente dal sito dell'ESU di Padova.\n@UnipdBot è promosso e sponsorizzato da @udupadova e sviluppato da @mikexine e @ThanksLory.\n*Lascia una recensione*, cercaci su @storebot!\nPer qualunque problema o suggerimento, scrivi a @ThanksLory qua su Telegram!\n\nVuoi dare una mano? Visita https://uniopen.org o scrivi direttamente al bot :)"},
+  "commands":{
+    "help": "aiuto",
+    "impostazioni": "impostazioni",
+    "orario": "orario",
+    "mensa": "mensa",
+    "biblioteca": "biblioteca",
+    "aulastudio": "aulastudio",
+    "diritto_studio": "diritto_studio",
+    "udupadova": "udupadova",
+    "vicino a te": "vicino a te",
+    "botinfo": "botinfo",
+    "cerca": "cerca"},
+  "sub_commands":{
+    "borse": "borse",
+    "tasse": "tasse",
+    "200ore": "200ore",
+    "informami": "informami",
+    "faqlibretto": "faqlibretto",
+    "erasmus": "erasmus",
+    "controguida": "controguida",
+    "cambiocorso": "cambiocorso",
+    "assembleaudu": "assembleaudu",
+    "sedeudu": "sedeudu"},
+  "type-1-string":[
+    "*{}*\n{}_Indirizzo:_ {}\n_Orari:_ {}\n",
+    "Posti disponibili",
+    "Notebook disponibili"],
+  "type-2-string":[
+    "*Mensa {}*\n_Indirizzo:_ {}\n_Pranzo:_ {}\n_Cena:_ {}",
+    "aperta",
+    "chiusa",
+    "dalle {} alle {}",
+    "\n\n_PRIMO:_ {}\n_SECONDO:_ {}\n_CONTORNO:_ {}",
+    "\n_DESSERT:_ {}"],
+  "settings":{
+    "type": 0,
+    "reply":[
+        "*Impostazioni*\nLingua: {}\nOrario automatico: *{}*",
+        "Attiva orario automatico",
+        "Disattiva orario automatico",
+        "Orario",
+        "*Impostazioni*\n\nSeleziona l'ora a cui vuoi ricervere gli orari delle lezioni",
+        "*Impostazioni*\nLingua: {}\nOrario automatico (alle {}): *{}*"]},
+  "cerca":{
+    "type": 0,
+    "reply":[
+        "Per cercare un libro scrivi /cerca seguito dal titolo o dall'autore\ne.g. `/cerca Analisi 2`\n\nPer una ricerca più dettagliata c'è il Cercafacile",
+        "Autore",
+        "Scheda libro",
+        "Ecco i primi",
+        "risultati",
+        "Risultati completi qui sotto",
+        "Risultati completi",
+        "Non ho trovato nulla\nPer una ricerca più approfondita c'è il *Cercafacile*"]},
+  "position":{
+    "type": 0,
+    "reply":[
+        "Mensa",
+        "più vicina, aperta oggi",
+        "distante",
+        "Aula studio",
+        "Biblioteca"]},
+  "orario":{
+    "type": 0,
+    "reply":{
+        "days": {"Lunedì": "Lunedì", "Martedì": "Martedì", "Mercoledì": "Mercoledì", "Giovedì": "Giovedì", "Venerdì": "Venerdì", "Sabato": "Sabato", "Domenica": "Domenica"},
+        "text":[
+        "Setup orario",
+        "Scegli l'anno",
+        "Scegli la scuola",
+        "Scegli il corso",
+        "Scegli l'anno di studi",
+        "Orario di",
+        "ore",
+        "aula",
+        "docente",
+        "Oggi relax!",
+        "Reset orario",
+        "Impostazioni"]}},
+  "faqlibretto":{
+    "type": 0,
+    "reply": "*Dubbi sul nuovo libretto online e sulle modalità di accettazione del voto su Uniweb?*\nPuoi consultare la guida sul rifiuto del voto https://goo.gl/8ffPpf o la nostra guida https://goo.gl/BvNCHr con domande e risposte utili!"},
+  "erasmus":{
+    "type": 0,
+    "reply": "*Vuoi saperne di più sull’esperienza Erasmus?*\nPuoi lasciare il like alla nostra pagina Facebook “InfoErasmus” https://www.facebook.com/infoerasmus!\nAlcuni link utili sono disponibili sul sito dell’ateneo al link https://goo.gl/Yz96fq"},
+  "borse":{
+    "type": 0,
+    "reply": "Le graduatorie relative alle *borse di studio regionali* per l’a.a. 2017/2018 sono tre: \n- iscritti al primo anno: https://goo.gl/vCLCE1;\n- studenti stranieri iscritti al primo anno: https://goo.gl/53vn1c;\n- iscritti ad anni successivi al primo: https://goo.gl/6Qhvwh;\n\nPer gli studenti iscritti al primo anno, la borsa verrà erogata in due rate, ma il pagamento della seconda avverrà verso metà ottobre 2018 e sarà subordinato alla registrazione, entro il 10 agosto 2018, di 20 CFU. Il mancato conseguimento di almeno 20 CFU entro il 30 novembre 2018 comporta la revoca della borsa di studio. Gli studenti iscritti dal secondo anno in poi saranno invece pagati in un'unica rata e, se idonei ma non percettori di borsa di studio, godranno gratuitamente del servizio di ristorazione.\nPer motivi eccezionali e documentati, il termine per il conseguimento dei crediti può essere posticipato fino al massimo di tre mesi.",
+    "markup":{
+        "0": "Bando aa. 2018/19",
+        "1": "Calcolatore tasse",
+        "2": "FAQ utili"}},
+  "tasse":{
+    "type": 0,
+    "reply": "L'importo della contribuzione dipende dall'ISEE, dal merito e dal corso di laurea. Per più informazioni consulta il prospetto tasse al link: https://goo.gl/mcvLY3. Per sapere se hai diritto a riduzioni, parziali o totali, leggi il bando esoneri 2017/2018: https://goo.gl/CDSgkZ. La prima rata scade il 30 Settembre 2017; la seconda rata scade il 15 Febbraio 2018; la terza rata scade il 16 Maggio 2018.",
+    "markup":{
+        "0": "Calcolatore tasse"}},
+  "200ore":{
+    "type": 0,
+    "reply": "Ogni anno gli studenti possono concorrere per svolgere collaborazioni a tempo parziale con l’Ateneo, per una durata massima di 200 ore. Possono concorrere gli studenti regolarmente iscritti con idonei requisiti economici e di merito, ad esclusione di quelli iscritti al primo anno dei corsi di laurea triennale e magistrale a ciclo unico, oltre a quelli che frequentano a tempo parziale. Possono invece partecipare alla selezione gli studenti iscritti al primo anno dei corsi di laurea magistrale. L’eventuale collaborazione a tempo parziale non costituisce attività lavorativa ed è compatibile con l’attribuzione della borsa di studio regionale",
+    "markup":{
+        "0": "Bando aa. 2018/19",
+        "1": "Graduatoria a.a. 2018/19",
+        "2": "Regolamento"}},
+  "controguida":{
+    "type": 0,
+    "reply": "*La Controguida* è la guida all’università che realizziamo ogni anno e consegniamo gratuitamente a tutte le nuove matricole dell’Università al momento dell’immatricolazione.\nContiene una serie di informazioni utili sull’università: diritto allo studio, tasse, aule studio, mense, vita universitaria e non solo.",
+    "markup":{
+        "0": "Controguida"}},
+  "informami":{
+    "type": 0,
+    "reply": "Per rimanere informato sulle ultimissime novità riguardanti l’Università di Padova, clicca su @udupadova ed iscriviti al canale. Riceverai tutte le informazioni più importanti (scadenze, pubblicazioni graduatorie, novità, etc..) non appena queste saranno disponibili!"},
+  "cambiocorso":{
+    "type": 0,
+    "reply": "*Hai dubbi sulle procedure relative al cambio corso?*\nPuoi leggere questa guida che abbiamo realizzato https://goo.gl/GC9gN6 o consultare la pagina del sito di Ateneo: https://goo.gl/tPJKkh"},
+  "assembleaudu":{
+    "type": 0,
+    "reply": "*Che cos’è l’Udu?*\nL’Udu (Unione degli Universitari) è l’associazione che ha creato questo Bot: è il più grande sindacato studentesco universitario nazionale, e ha anche una base a Padova. Fare parte dell’Udu significa difendere i diritti degli studenti universitari, organizzare iniziative e dibattiti, proporre soluzioni ai tanti problemi quotidiani della vita universitaria, e tanto altro ancora. Settimanalmente, Studenti Per - Udu Padova, la base padovana dell’Udu, si riunisce in Assemblea al Circolo Reset ([sedeudu]), via Loredan 26, vicino al Portello. Se sei interessato a conoscere la realtà della nostra associazione, o semplicemente vuoi saperne di più su quello che facciamo, puoi restare aggiornata seguendo la nostra pagina Facebook https://www.facebook.com/studentiper.udupadova o iscrivendoti al nostro canale Telegram @udupadova"},
+  "sedeudu":{
+    "type": 0,
+    "reply": "La “sede” dell’Udu Padova, come comunemente la chiamano i suoi militanti, è il *Circolo Reset*: un circolo culturale, sede di diverse associazioni tra cui Studenti Per - Udu Padova, la Rete degli Studenti Medi del Veneto, Libera ed Anpi, è in Via Loredan, 26 a Padova, a pochi passi dal Portello. E’ anche un’aula studio con WiFi gratuito e prese di corrente, aperta quotidianamente dalle 9 alle 20: se cerchi un posto dove studiare o rilassarti dopo lezione, passa a fare un giro!\nPer maggiori informazioni sulle attività che si svolgono settimanalmente al Circolo Reset, puoi restare aggiornato sulla pagina Facebook https://www.facebook.com/reset.padova"}
+}

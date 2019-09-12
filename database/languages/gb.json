@@ -1,0 +1,144 @@
+{
+  "home":{
+    "type": 0,
+    "reply": "Choose an option from the keyboard!"},
+  "mensa":{
+    "type": 0,
+    "reply": "Select a canteen from the list below"},
+  "aulastudio":{
+    "type": 0,
+    "reply": "Select a study-room from the list below"},
+  "biblioteca":{
+    "type": 0,
+    "reply": "Select a library from the list below"},
+  "diritto_studio":{
+    "type": 0,
+    "reply": "Select an option from the keyboard!"},
+  "udupadova":{
+    "type": 0,
+    "reply": "Select an option from the keyboard!"},
+  "botinfo":{
+    "type": 0,
+    "reply": "Data of canteens are automatically obtained from ESU Padova website.\n@UnipdBot is sponsored by @udupadova and developed by @mikexine and @ThanksLory.\n*Leave a review*, search us on @storebot!\nFor any issue or suggestion, contact @ThanksLory here on Telegram!\n\nDo you wish to help? Go to https://uniopen.org or write directly to the bot :)"},
+  "commands":{
+    "help": "help",
+    "impostazioni": "settings",
+    "orario": "schedule",
+    "mensa": "canteen",
+    "biblioteca": "library",
+    "aulastudio": "sudy_room",
+    "diritto_studio": "right_to_study",
+    "udupadova": "udupadova",
+    "vicino a te": "near you",
+    "botinfo": "botinfo",
+    "cerca": "find"},
+  "sub_commands":{
+    "borse": "borse",
+    "tasse": "fee",
+    "200ore": "200hours",
+    "informami": "inform_me",
+    "faqlibretto": "faqlibretto",
+    "erasmus": "erasmus",
+    "controguida": "controguida",
+    "cambiocorso": "course_change",
+    "assembleaudu": "assembleaudu",
+    "sedeudu": "sedeudu"},
+  "type-1-string":[
+    "*{}*\n{}_Address:_ {}\n_Opening Hours:_ {}\n",
+    "Available seats",
+    "Available notebooks"],
+  "type-2-string":[
+    "*Canteen {}*\n_Address:_ {}\n_Lunch:_ {}\n_Dinner:_ {}",
+    "opened",
+    "closed",
+    "from {} to {}",
+    "\n\n_PRIMO:_ {}\n_SECONDO:_ {}\n_CONTORNO:_ {}",
+    "\n_DESSERT:_ {}"],
+  "settings":{
+    "type": 0,
+    "reply":[
+        "*Settings*\nLanguage: {}\nAutomatic timing: *{}*",
+        "Enable automatic timing",
+        "Disable automatic timing",
+        "Schedule",
+        "*Settings*\n\nAt what time do you want to recive the daily schedule?",
+        "*Settings*\nLanguage: {}\nAutomatic timing (at {}): *{}*"]},
+  "cerca":{
+    "type": 0,
+    "reply":[
+        "To search for a book type /cerca followed by the title or author\ne.g. `/cerca Analisi 2`\n\nFor a more detailed search, use Cercafacile",
+        "Author",
+        "Book info",
+        "Here are the first",
+        "results",
+        "Scroll down for the complete results",
+        "Complete result",
+        "I haven't found anything\nFor a more detailed search, use *Cercafacile*"]},
+  "position":{
+    "type": 0,
+    "reply":[
+        "Canteen",
+        "near, open today",
+        "far",
+        "Study-room",
+        "Library"]},
+  "orario":{
+    "type": 0,
+    "reply":{
+        "days": {"Lunedì": "Monday", "Martedì": "Tuesday", "Mercoledì": "Wednesday", "Giovedì": "Thursday", "Venerdì": "Friday", "Sabato": "Saturday", "Domenica": "Sunday"},
+        "text":[
+        "Setup hours",
+        "Select academic year",
+        "Select school",
+        "Select the study course",
+        "Select the year of study",
+        "Schedule of",
+        "hours",
+        "room",
+        "professor",
+        "Relax today!",
+        "Reset schedule",
+        "Settings"]}},
+  "faqlibretto":{
+    "type": 0,
+    "reply": "*Doubts on the new online booklet and exam mark acceptance procedures on Uniweb?*\nYou can have a look at this guide regarding exams marks https://goo.gl/8ffPpf or our guide at https://goo.gl/BvNCHr with useful Q&A!"},
+  "erasmus":{
+    "type": 0,
+    "reply": "*Do you wish to know more about the Erasmus experience?*\nYou can follow our Facebook page “InfoErasmus” https://www.facebook.com/infoerasmus!\nSome useful links are available on the university website at https://goo.gl/Yz96fq"},
+  "borse":{
+    "type": 0,
+    "reply": "The ranking lists for *borse di studio regionali* (i.e. scholarships) for the a.y. 2017/2018 are three: \n- students enrolled in the 1st year: https://goo.gl/vCLCE1;\n- international students enrolled in the 1st year: https://goo.gl/53vn1c;\n- students enrolled in other years: https://goo.gl/6Qhvwh;\n\nPer gli studenti iscritti al primo anno, la borsa verrà erogata in due rate, ma il pagamento della seconda avverrà verso metà ottobre 2018 e sarà subordinato alla registrazione, entro il 10 agosto 2018, di 20 CFU. Il mancato conseguimento di almeno 20 CFU entro il 30 novembre 2018 comporta la revoca della borsa di studio. Gli studenti iscritti dal secondo anno in poi saranno invece pagati in un'unica rata e, se idonei ma non percettori di borsa di studio, godranno gratuitamente del servizio di ristorazione.\nPer motivi eccezionali e documentati, il termine per il conseguimento dei crediti può essere posticipato fino al massimo di tre mesi.",
+    "markup":{
+        "0": "Call a.y. 2018/19",
+        "1": "University fee simulator",
+        "2": "FAQ"}},
+  "tasse":{
+    "type": 0,
+    "reply": "The amount of the scholarship depends on the ISEE index, from academic merit and degree course. For further info check the link: https://goo.gl/mcvLY3. Check this website to know if you are entitled to ask for a reduction of fees (a.y. 2017/2018): https://goo.gl/CDSgkZ. The deadline for the first payment is the 30th September 2017; the second is due before the 15th February 2018; the third deadline is on the 16th May 2018.",
+    "markup":{
+        "0": "University fee simulator"}},
+  "200ore":{
+    "type": 0,
+    "reply": "Every year the students can apply for part-time work within the University, for 200 hourse in total. To be elegible students have to be regularly enrolled and satisfy specific economic and academic requiriments, apart from those enrolled in the 1st year of bachelor and full-master's degrees (e.g. Law, Medicine, etc.) and those who are enrolled part-time. Master's student enrolled in the 1st year can instead participate. While working part-time for the university you can ALSO apply for the scholarship, they do not exclude each other.",
+    "markup":{
+        "0": "Call a.y. 2018/19",
+        "1": "Ranking list a.Y. 2018/19",
+        "2": "Regulation"}},
+  "controguida":{
+    "type": 0,
+    "reply": "*La Controguida* is a free guide to university life we realize and deliver every year to all new students.\n It contains useful information: study rights, fees, study-rooms, canteens, university life and more.",
+    "markup":{
+        "0": "Controguida"}},
+  "informami":{
+    "type": 0,
+    "reply": "To stay updated on latest news regarding the University of Padova, click on @udupadova and subscribe to the channel. You will receive all important notifications (deadlines, ranking lists, news, etc..) as soon as they are published!"},
+  "cambiocorso":{
+    "type": 0,
+    "reply": "*Do you have doubts regarding change of degree course procedures?*\nYou can read our guide https://goo.gl/GC9gN6 or check the University website: https://goo.gl/tPJKkh"},
+  "assembleaudu":{
+    "type": 0,
+    "reply": "*What's Udu?*\nUdu (Unione degli Universitari-University Students Union) is the association who built this Bot: it is also the biggest Italian university students union, and it is present also in Padova. Being part of Udu means to defend the students' rights, organize events and conferences, suggest solutions to many problems of the university life and more. Studenti Per - Udu Padova hosts a weekly meeting at Circolo Reset ([sedeudu]), via Loredan 26, near Portello. If you are interested in knowing more about or take part in what we do, you can follow our Facebook page https://www.facebook.com/studentiper.udupadova or subscribe to our Telegram channel @udupadova"},
+  "sedeudu":{
+    "type": 0,
+    "reply": "The “home” home of Udu Padova, named like that by its members, is *Circolo Reset*: a cultural club, home of different associations (Studenti Per - Udu Padova, la Rete degli Studenti Medi del Veneto, Libera and Anpi) is in Via Loredan, 26 in Padova, a few steps from Portello. It is also a study-room with free WiFi and plugs for your phones and laptops, open every day from 9am to 8pm: if you are looking for a spot where you can study or relax, you are always welcome!\nFor further information on the weekly activities at Circolo Reset, check https://www.facebook.com/reset.padova"}
+}

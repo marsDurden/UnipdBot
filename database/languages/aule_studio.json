@@ -1,0 +1,55 @@
+{
+  "jappelli":{
+    "type": 1,
+    "title": "Aula studio Jappelli",
+    "address": "Via Jappelli 9",
+    "timetable": "Lunedì - Venerdì 8.30 - 23, Sabato 8.30 - 20, Domenica 14 - 19"},
+    
+  "pollaio":{
+    "type": 1,
+    "title": "Aula studio Pollaio",
+    "address": "Via Belzoni 7",
+    "timetable": "Lunedì - Domenica 8:30 - 1:00"},
+    
+  "titolivio":{
+    "type": 1,
+    "title": "Aula studio Tito Livio",
+    "address": "Galleria Tito Livio 7",
+    "timetable": "Lunedì - Sabato 8:30 - 23:00, Domenica 8:30 - 19:00"},
+    
+  "galilei":{
+    "type": 1,
+    "title": "Aula studio Galilei",
+    "address": "via Galilei 42",
+    "timetable": "Lunedì - Venerdì 8.30 - 20:00"},
+    
+  "marsala":{
+    "type": 1,
+    "title": "Aula studio Marsala",
+    "address": "via Marsala 15",
+    "timetable": "Lunedì - Venerdì 8.30 - 20:00"},
+    
+  "viavenezia":{
+    "type": 1,
+    "title": "Aula studio Ex Fiat",
+    "address": "via Venezia 13",
+    "timetable": "Lunedì - Venerdì 8.30 - 19:00, Sabato 8.30 - 14:00"},
+    
+  "vbranca":{
+    "type": 1,
+    "title": "Biblioteca ESU Vittore Branca",
+    "address": "Via Venezia, 20",
+    "timetable": "Lunedì - Venerdì: 8:30 - 20:30"},
+    
+  "reset":{
+    "type": 1,
+    "title": "Aula studio Reset",
+    "address": "Via Loredan, 26",
+    "timetable": "Tutti i giorni: 9:00 - 20:00"},
+    
+  "aulasangaetano":{
+    "type": 1,
+    "title": "Aula studio San Gaetano",
+    "address": "via Altinate 71",
+    "timetable": "Lunedì - Giovedì 8.30 - 17:30, Venerdì - Sabato 8.30 - 13:30"}
+}

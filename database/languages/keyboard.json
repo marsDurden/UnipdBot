@@ -1,0 +1,310 @@
+{
+  "bibliodiritto":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.406702",
+    "lon": "11.876806"},
+    
+  "filosofia":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.407698",
+    "lon": "11.872289"},
+    
+  "ingegneria":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.410067",
+    "lon": "11.889109"},
+    
+  "someda":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.408952",
+    "lon": "11.893665"},
+    
+  "maldura":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.406435",
+    "lon": "11.876761"},
+    
+  "matematica":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.411331",
+    "lon": "11.887632"},
+    
+  "storia":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.405824",
+    "lon": "11.870405"},
+    
+  "metelli":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.410894",
+    "lon": "11.893752"},
+    
+  "pinali":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.403854",
+    "lon": "11.88773"},
+    
+  "caborin":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.40513",
+    "lon": "11.878866"},
+    
+  "cuzabarella":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.408204",
+    "lon": "11.879209"},
+    
+  "universitaria":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.40705",
+    "lon": "11.8804"},
+    
+  "bibliochimica":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.409979",
+    "lon": "11.883816"},
+    
+  "agribiblio":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.353451", 
+    "lon": "11.951161"},
+    
+  "bibliogeo":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.408952",
+    "lon": "11.893665"},
+    
+  "sangaetano":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.4086547",
+    "lon": "11.8820478"},
+    
+  "liviano":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.4079639",
+    "lon": "11.8722474"},
+    
+  "bibliofarmacia":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.409627",
+    "lon": "11.886384"},
+    
+  "sanfrancesco":{
+    "inline": true,
+    "markup":{
+        "0":{
+            "text": "Maps",
+            "url": "https://goo.gl/maps/HMEF4GLf4HD2"}},
+    "lat": null,
+    "lon": null},
+    
+  "piovego":{
+    "inline": true,
+    "markup":{
+        "0":{
+            "text": "Maps",
+            "url": "https://goo.gl/maps/upv2aCcjDWx"}},
+    "lat": null,
+    "lon": null},
+    
+  "agripolis":{
+    "inline": true,
+    "markup":{
+        "0":{
+            "text": "Maps",
+            "url": "https://goo.gl/maps/nuegiRUXMGM2"}},
+    "lat": null,
+    "lon": null},
+    
+  "acli":{
+    "inline": true,
+    "markup":{
+        "0":{
+            "text": "Maps",
+            "url": "https://goo.gl/maps/LqZPCuUMpxP2"}},
+    "lat": null,
+    "lon": null},
+    
+  "belzoni":{
+    "inline": true,
+    "markup":{
+        "0":{
+            "text": "Maps",
+            "url": "https://goo.gl/maps/QX2HS5xVqKJ2"}},
+    "lat": null,
+    "lon": null},
+    
+  "murialdo":{
+    "inline": true,
+    "markup":{
+        "0":{
+            "text": "Maps",
+            "url": "https://goo.gl/maps/95uk6sHECfx"}},
+    "lat": null,
+    "lon": null},
+    
+  "forcellini":{
+    "inline": true,
+    "markup":{
+        "0":{
+            "text": "Maps",
+            "url": "https://goo.gl/maps/GLr6kh7mpb42"}},
+    "lat": null,
+    "lon": null},
+    
+  "jappelli":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.4079346",
+    "lon": "11.8852647"},
+    
+  "pollaio":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.4076625",
+    "lon": "11.886351"},
+    
+  "titolivio":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.4044118",
+    "lon": "11.8758769"},
+    
+  "galilei":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.4034595",
+    "lon": "11.8799328"},
+    
+  "marsala":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.4051008",
+    "lon": "11.8758723"},
+    
+  "viavenezia":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.4122195",
+    "lon": "11.8948137"},
+    
+  "vbranca":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.410167",
+    "lon": "11.895595"},
+    
+  "reset":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.40973778",
+    "lon": "11.89091384"},
+    
+  "aulasangaetano":{
+    "inline": false,
+    "markup": "",
+    "lat": "45.4086547",
+    "lon": "11.8820478"},
+    
+  "faqlibretto":{
+    "inline": false,
+    "markup": "",
+    "lat": null,
+    "lon": null},
+    
+  "erasmus":{
+    "inline": false,
+    "markup": "",
+    "lat": null,
+    "lon": null},
+  
+  "borse":{
+    "inline": true,
+    "markup":{
+        "0":{
+            "text": "Bando borse",
+            "url": "https://goo.gl/4TLc7W"},
+        "1":{
+            "text": "Calcolatore tasse",
+            "url": "https://goo.gl/RYKH8E"},
+        "2":{
+            "text": "FAQ utili",
+            "url": "https://goo.gl/0zKqvj"}},
+    "lat": null,
+    "lon": null},
+    
+  "tasse":{
+    "inline": true,
+    "markup":{
+        "0":{
+            "text": "Calcolatore tasse",
+            "url": "https://goo.gl/RYKH8E"}},
+    "lat": null,
+    "lon": null},
+    
+  "200ore":{
+    "inline": true,
+    "markup":{
+        "0":{
+            "text": "Bando 200 ore",
+            "url": "https://goo.gl/Qe9pYc"},
+        "1":{
+            "text": "Graduatoria",
+            "url": "https://goo.gl/xL7N7A"},
+        "2":{
+            "text": "Regolamento",
+            "url": "https://goo.gl/Amyi89"}},
+    "lat": null,
+    "lon": null},
+  
+  "controguida":{
+    "inline": true,
+    "markup":{
+        "0":{
+            "text": "Controguida",
+            "url": "https://goo.gl/UX4uMP"}},
+    "lat": null,
+    "lon": null},
+  
+  "informami":{
+    "inline": false,
+    "markup": "",
+    "lat": null,
+    "lon": null},
+    
+  "cambiocorso":{
+    "inline": false,
+    "markup": "",
+    "lat": null,
+    "lon": null},
+    
+  "assembleaudu":{
+    "inline": false,
+    "markup": "",
+    "lat": null,
+    "lon": null},
+    
+  "sedeudu":{
+    "inline": false,
+    "markup": "",
+    "lat": null,
+    "lon": null}
+} 
