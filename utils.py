@@ -14,8 +14,6 @@ def flag(code):
     OFFSET = 127462 - ord('A')
     return chr(ord(code[0]) + OFFSET) + chr(ord(code[1]) + OFFSET)
 
-
-
 #
 # Database operations
 #
@@ -27,12 +25,9 @@ def get_chat_id(update, as_int=False):
     try:
         ch_id = update.message.chat.id
     except:
-        try:
-            ch_id = update.callback_query.message.chat.id
-            print(ch_id)
-        except:
-            print(update, '\n\n')
-    return int(ch_id) if as_int else ch_id
+        ch_id = update.callback_query.message.chat.id
+    finally:
+        return int(ch_id) if as_int else ch_id
 
 def get_lang(update, u_id=None):
     # Database: Lingua
@@ -50,27 +45,32 @@ def get_lang(update, u_id=None):
 
 def get_user_settings(update, lang_list, u_id=None):
     if u_id is None: u_id = str(update.message.from_user.id)
+    lang = flag(get_lang('', u_id=u_id))
     # Database: Orario
     con = sqlite3.connect(db_path)
     cur = con.cursor()
 
     cur.execute("SELECT alarm FROM Orario WHERE u_id = ?", (u_id,))
-    alarm = 'off' if cur.fetchone()[0] is None else 'on'
+    alarm_hour = cur.fetchone()[0]
+    if alarm_hour is None:
+        alarm = 'off'
+        reply = lang_list[0].format(lang, alarm)
+    else:
+        alarm = 'on'
+        reply = lang_list[5].format(lang, alarm_hour, alarm)
     alarm_btn = lang_list[1] if alarm == 'off' else lang_list[2]
     con.close()
 
-    lang = flag(get_lang('', u_id=u_id))
-
-    markup = [[InlineKeyboardButton(flag(_), callback_data='settings-'+_) for _ in supported_languages]]
-    markup.append([InlineKeyboardButton(alarm_btn, callback_data='settings-alarm-' + alarm), InlineKeyboardButton(lang_list[3], callback_data='orario')])
-    return lang_list[0].format(lang, alarm), markup
+    markup = [[InlineKeyboardButton(flag(_), callback_data='2-lang-'+_) for _ in supported_languages]]
+    markup.append([InlineKeyboardButton(alarm_btn, callback_data='2-alarm-' + alarm), InlineKeyboardButton(lang_list[3], callback_data='1-orario')])
+    return reply, markup
 
 def get_enabled_alarm_users():
     # Database: Orario
     con = sqlite3.connect(db_path)
     cur = con.cursor()
-    cur.execute("SELECT u_id FROM Orario WHERE alarm='1'")
-    r = [i[0] for i in cur.fetchall()]
+    cur.execute("SELECT u_id, alarm FROM Orario WHERE alarm NOT NULL")
+    r = cur.fetchall()
     con.close()
     return r
 
@@ -85,12 +85,11 @@ def set_lang(u_id, lang_code):
     else:
         return False
 
-def set_alarm_value(u_id, mode):
+def set_alarm_value(u_id, hour):
     # Database: Orario
     con = sqlite3.connect(db_path)
     cur = con.cursor()
-    mode = '1' if mode else None
-    cur.execute("UPDATE Orario SET alarm = ? WHERE u_id = ?", (mode, u_id))
+    cur.execute("UPDATE Orario SET alarm = ? WHERE u_id = ?", (hour, u_id))
     con.commit()
     con.close()
 

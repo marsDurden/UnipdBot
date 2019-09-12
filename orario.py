@@ -1,5 +1,5 @@
 from urllib.request import urlopen
-import json, datetime, sqlite3, pickle, subprocess, os, requests
+import json, datetime, sqlite3, subprocess, os, requests
 from telegram import InlineKeyboardButton
 
 from config import list_url, orario_url, orario_path, db_path, global_path
@@ -50,7 +50,7 @@ def update_database():
                         #b['elenco_anni'].pop(i)
                     #else:
                         #i += 1
-
+        
         ## Toglie le entry vuote
         #i = 0
         #while i < len(elenco_scuole):
@@ -61,11 +61,10 @@ def update_database():
         
         save_to('./elenco_scuole.json', json.dumps(elenco_scuole, indent=4))
         save_to('./elenco_corsi.json', json.dumps(elenco_corsi, indent=4))
-    
+        
         for corso in elenco_corsi['elenco']:
             # Corso Ingegneria dell'informazione
             name = corso['label'].replace('/','_').replace('-','').replace(' ','_')
-            #print(name)
             subprocess.call(['mkdir', '-p', corso['valore']])
             os.chdir(corso['valore'])
             subprocess.call(['touch', name])
@@ -113,19 +112,6 @@ def findBetween(s, first, last):
     except ValueError:
         return ""
 
-def newOrario(idUser, data):
-    con = sqlite3.connect(db_path)
-    c = con.cursor()
-    for row in c.execute('SELECT ultima_data FROM Orario WHERE u_id = ' + str(idUser) ):
-        if row[0] is None:
-            con.close()
-            return True
-        if data == row[0]:
-            con.close()
-            return False
-    con.close()
-    return True
-
 def orarioSetup(idUser, lang_str, resetDate=False):
     # Anno >> Scuola >> Corso >> Anno di studi
     keyboard = []
@@ -140,49 +126,57 @@ def orarioSetup(idUser, lang_str, resetDate=False):
         con.commit()
     
     # Guarda se l'utente e' gia' settato
+    # Anno
     elenco_anni = json.load(open(orario_path + 'elenco_anni.json'))
-    for row in c.execute('SELECT anno FROM Orario WHERE u_id = "' + str(idUser) + '"' ):
-        if row[0] is None:
-            for tmp1 in elenco_anni:
-                keyboard.append([InlineKeyboardButton(elenco_anni[tmp1]["label"], callback_data="anno-"+str(elenco_anni[tmp1]["valore"]) )])
-            return "*" + lang_str['text'][0] + "*\n\n" + lang_str['text'][1], keyboard
-        else:
-            anno = row[0]
+    row = c.execute('SELECT anno FROM Orario WHERE u_id = "' + str(idUser) + '"' ).fetchone()[0]
+    if row is None:
+        for tmp1 in elenco_anni:
+            keyboard.append([InlineKeyboardButton(elenco_anni[tmp1]["label"], callback_data="1-anno-"+str(elenco_anni[tmp1]["valore"]) )])
+        return "*" + lang_str['text'][0] + "*\n\n" + lang_str['text'][1], keyboard
+    else:
+        anno = row
     
+    # Scuola
     elenco_scuole = json.load(open(orario_path + anno + '/elenco_scuole.json'))
     elenco_corsi = json.load(open(orario_path + anno + '/elenco_corsi.json'))
-    for row in c.execute('SELECT scuola FROM Orario WHERE u_id = "' + str(idUser) + '"' ):
-        if row[0] is None:
-            for tmp1 in elenco_scuole:
-                keyboard.append( [ InlineKeyboardButton(elenco_scuole[tmp1]["label"].replace("Scuola di ",""), callback_data=elenco_scuole[tmp1]["valore"]) ] )
-            keyboard.append([InlineKeyboardButton("- reset -", callback_data="reset_orario") ])
-            return "*" + lang_str['text'][0] + "*\n\n" + lang_str['text'][2], keyboard
-        else:
-            scuola = row[0]
-    for row in c.execute('SELECT corso FROM Orario WHERE u_id = "' + str(idUser) + '"' ):
-        if row[0] is None:
-            for tmpScuola in elenco_corsi["elenco"]:
-                if tmpScuola["scuola"] == scuola:
-                    keyboard.append( [ InlineKeyboardButton(tmpScuola["label"].split('- ', 1)[-1], callback_data="corso-"+tmpScuola["valore"]) ] )
-            keyboard.append([InlineKeyboardButton("- reset -", callback_data="reset_orario") ])
-            return "*" + lang_str['text'][0] + "*\n\n" + lang_str['text'][3], keyboard
-        else:
-            corso = row[0]
-    for row in c.execute('SELECT anno_studi FROM Orario WHERE u_id = "' + str(idUser) + '"' ):
-        if row[0] is None:
-            for tmpScuola in elenco_corsi["elenco"]:
-                if tmpScuola["valore"] == corso:
-                    for tmpCorso in tmpScuola["elenco_anni"]:
-                        keyboard.append( [ InlineKeyboardButton(tmpCorso["label"], callback_data="anno_studi-"+tmpCorso["valore"]) ] )
-            keyboard.append([InlineKeyboardButton("- reset -", callback_data="reset_orario") ])
-            return "*" + lang_str['text'][0] + "*\n\n" + lang_str['text'][4], keyboard
-        else:
-            anno_studi = row[0]
-    for row in c.execute('SELECT ultima_data FROM Orario WHERE u_id = "' + str(idUser) + '"' ):
-        if row[0] is None:
-            data = datetime.date.today().strftime('%d-%m-%Y')
-        else:
-            data = row[0]
+    row = c.execute('SELECT scuola FROM Orario WHERE u_id = "' + str(idUser) + '"' ).fetchone()[0]
+    if row is None:
+        for tmp1 in elenco_scuole:
+            keyboard.append( [ InlineKeyboardButton(elenco_scuole[tmp1]["label"].replace("Scuola di ",""), callback_data='1-'+elenco_scuole[tmp1]["valore"]) ] )
+        keyboard.append([InlineKeyboardButton("- reset -", callback_data="1-reset") ])
+        return "*" + lang_str['text'][0] + "*\n\n" + lang_str['text'][2], keyboard
+    else:
+        scuola = row
+    
+    # Corso
+    row = c.execute('SELECT corso FROM Orario WHERE u_id = "' + str(idUser) + '"' ).fetchone()[0]
+    if row is None:
+        for tmpScuola in elenco_corsi["elenco"]:
+            if tmpScuola["scuola"] == scuola:
+                keyboard.append( [ InlineKeyboardButton(tmpScuola["label"].split('- ', 1)[-1], callback_data="1-corso-"+tmpScuola["valore"]) ] )
+        keyboard.append([InlineKeyboardButton("- reset -", callback_data="1-reset") ])
+        return "*" + lang_str['text'][0] + "*\n\n" + lang_str['text'][3], keyboard
+    else:
+        corso = row
+    
+    # Anno di studi
+    row = c.execute('SELECT anno_studi FROM Orario WHERE u_id = "' + str(idUser) + '"' ).fetchone()[0]
+    if row is None:
+        for tmpScuola in elenco_corsi["elenco"]:
+            if tmpScuola["valore"] == corso:
+                for tmpCorso in tmpScuola["elenco_anni"]:
+                    keyboard.append( [ InlineKeyboardButton(tmpCorso["label"], callback_data="1-anno_studi-"+tmpCorso["valore"]) ] )
+        keyboard.append([InlineKeyboardButton("- reset -", callback_data="1-reset") ])
+        return "*" + lang_str['text'][0] + "*\n\n" + lang_str['text'][4], keyboard
+    else:
+        anno_studi = row
+    
+    # Ultima data visualizzata
+    row = c.execute('SELECT ultima_data FROM Orario WHERE u_id = "' + str(idUser) + '"' ).fetchone()[0]
+    if row is None:
+        data = datetime.date.today().strftime('%d-%m-%Y')
+    else:
+        data = row
     if resetDate:
         data = datetime.date.today().strftime('%d-%m-%Y')
         c.execute("UPDATE Orario SET ultima_data = '" + data + "' WHERE u_id = '" + str(idUser) + "'")
@@ -206,23 +200,23 @@ def orarioSetup(idUser, lang_str, resetDate=False):
 
     tmpDay = data - datetime.timedelta(days=2)
     btn1 = "« " + tmpDay.strftime('%d')
-    btn1Data = "data-" + tmpDay.strftime('%d-%m-%Y')
+    btn1Data = "1-data-" + tmpDay.strftime('%d-%m-%Y')
 
     tmpDay = data - datetime.timedelta(days=1)
     btn2 = "< " + tmpDay.strftime('%d')
-    btn2Data = "data-" + tmpDay.strftime('%d-%m-%Y')
+    btn2Data = "1-data-" + tmpDay.strftime('%d-%m-%Y')
 
     tmpDay = data
     btn3 = "· " + tmpDay.strftime('%d') + " ·"
-    btn3Data = "data-" + tmpDay.strftime('%d-%m-%Y')
+    btn3Data = "1-data-" + tmpDay.strftime('%d-%m-%Y')
 
     tmpDay = data + datetime.timedelta(days=1)
     btn4 = tmpDay.strftime('%d') + " >"
-    btn4Data = "data-" + tmpDay.strftime('%d-%m-%Y')
+    btn4Data = "1-data-" + tmpDay.strftime('%d-%m-%Y')
 
     tmpDay = data + datetime.timedelta(days=2)
     btn5 = tmpDay.strftime('%d') + " »"
-    btn5Data = "data-" + tmpDay.strftime('%d-%m-%Y')
+    btn5Data = "1-data-" + tmpDay.strftime('%d-%m-%Y')
 
     giorni = list(lang_str['days'].values())
     reply1 = "*" + lang_str['text'][5] + " " + giorni[data.weekday()] + data.strftime(" %d/%m/%Y") + ":*\n"
@@ -234,7 +228,7 @@ def orarioSetup(idUser, lang_str, resetDate=False):
 
     return reply, [[InlineKeyboardButton(btn1, callback_data=btn1Data),InlineKeyboardButton(btn2, callback_data=btn2Data),InlineKeyboardButton(btn3, callback_data=btn3Data),
                     InlineKeyboardButton(btn4, callback_data=btn4Data),InlineKeyboardButton(btn5, callback_data=btn5Data)],
-                    [InlineKeyboardButton(lang_str['text'][10], callback_data="reset_orario"), InlineKeyboardButton(lang_str['text'][11], callback_data="settings-view")]]
+                    [InlineKeyboardButton(lang_str['text'][10], callback_data="1-reset"), InlineKeyboardButton(lang_str['text'][11], callback_data="2-view")]]
 
 def orarioSaveSetting(idUser, value, lang_str):
     con = sqlite3.connect(db_path)
@@ -256,7 +250,7 @@ def orarioSaveSetting(idUser, value, lang_str):
         c.execute("UPDATE Orario SET anno_studi = '" + str(value).replace("anno_studi-", "") + "' WHERE u_id = '" + str(idUser) + "'")
         con.commit()
         return orarioSetup(idUser, lang_str, resetDate = True)
-    if "reset_orario" == value:
+    if "reset" == value:
         c.execute("DELETE FROM Orario WHERE u_id = '" + str(idUser) + "'")
         con.commit()
         return orarioSetup(idUser, lang_str)
@@ -266,7 +260,7 @@ def orarioSaveSetting(idUser, value, lang_str):
         return orarioSetup(idUser, lang_str)
     if value == "orario":
         return orarioSetup(idUser, lang_str)
-    return "Error", [[InlineKeyboardButton("Error", callback_data="reset_orario")]]
+    return "Sorry, an error ocurred", [[InlineKeyboardButton("Reset", callback_data="1-reset")]]
 
 if __name__ == '__main__':
     update_database()

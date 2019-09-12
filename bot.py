@@ -40,7 +40,7 @@ def bottleneck(func):
     def wrapped(update, context, *args, **kwargs):
         # Autoban system
         bans = []
-        user_id = context.message.chat.id
+        user_id = update.message.chat.id
         if user_id not in bans:
             return func(update, context, *args, **kwargs)
         else:
@@ -180,6 +180,16 @@ def cerca(update, context):
                         parse_mode=ParseMode.MARKDOWN)
 
 @bottleneck
+def settings(update, context):
+    reply = languages.get_reply('settings', lang=get_lang(update))
+    reply, keyboard = get_user_settings(update, reply)
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    context.bot.sendMessage(chat_id=get_chat_id(update),
+                    text=reply,
+                    parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=reply_markup)
+
+@bottleneck
 def orario(update, context):
     u_id = str(update.message.from_user.id)
     chat_id = update.message.chat_id
@@ -191,77 +201,82 @@ def orario(update, context):
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=reply_markup)
 
-def callbackButton(bot, update, job_queue, chat_data):
-    query = update.callback_query
-    u_id = str(query.from_user.id)
-    chat_id = query.message.chat_id
-    keyboard = None
-    if 'settings-' in query.data:
-        data = query.data.split('-')
-        if data[1] == 'alarm':
-            if data[2] == 'on':
-                unset_alarm(str(chat_id), job_queue)
-                set_alarm_value(u_id, False)
-            else:
-                set_alarm(str(chat_id), u_id, job_queue)
-                set_alarm_value(u_id, True)
-        elif data[1] == 'view':
-            pass # View settings (coming from orario)
-        else:
-            # Lang code in data[1]
-            changed = set_lang(u_id, data[1])
-            if not changed: return
-        reply, keyboard = get_user_settings(update, languages.get_reply('settings', lang=get_lang('', u_id=u_id)), u_id=u_id)
-    elif query.data[:2] == "v-":
-        reply, keyboard = seggio(query.data)
-    elif newOrario(chat_id, query.data.replace("data-", "")):
-        lang_str = languages.get_reply('orario', lang=get_lang('', u_id=u_id))
-        reply, keyboard = orarioSaveSetting(chat_id, query.data, lang_str)
-    elif query.data == 'error':
-        home(bot, update)
-    if keyboard is not None:
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        bot.editMessageText(text=reply,
-                        chat_id=chat_id,
-                        message_id=query.message.message_id,
-                        parse_mode=ParseMode.MARKDOWN,
-                        reply_markup=reply_markup)
-
-@bottleneck
-def settings(update, context):
-    reply = languages.get_reply('settings', lang=get_lang(update))
-    reply, keyboard = get_user_settings(update, reply)
+def callback_orario(update, context):
+    data = update.callback_query.data[2:]
+    u_id = str(update.callback_query.from_user.id)
+    chat_id = update.callback_query.message.chat_id
+    lang_str = languages.get_reply('orario', lang=get_lang('', u_id=u_id))
+    reply, keyboard = orarioSaveSetting(chat_id, data, lang_str)
     reply_markup = InlineKeyboardMarkup(keyboard)
-    context.bot.sendMessage(chat_id=get_chat_id(update),
-                    text=reply,
+    context.bot.editMessageText(text=reply,
+                    chat_id=chat_id,
+                    message_id=update.callback_query.message.message_id,
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=reply_markup)
 
-@bottleneck
-def daily_orario(bot, job):
-    chat_id = job.context[0]
-    u_id = job.context[0]
+def callback_settings(update, context):
+    data = update.callback_query.data[2:].split('-')
+    u_id = str(update.callback_query.from_user.id)
+    chat_id = update.callback_query.message.chat_id
+    if data[0] == 'alarm':
+        if data[1] == 'on':
+            # Chiude il job
+            unset_job_orario(str(chat_id), context.job_queue)
+            set_alarm_value(u_id, None)
+        elif data[1] == 'off':
+            # Scelta timing orario
+            lang_list = languages.get_reply('settings', lang=get_lang('', u_id=u_id))
+            markup = []
+            for hour in [5, 7, 9, 12, 18, 21]:
+                markup.append([InlineKeyboardButton(str(hour)+':00', callback_data='2-alarm-set-'+str(hour)+':00'), InlineKeyboardButton(str(hour)+':30', callback_data='2-alarm-set-'+str(hour)+':30'),
+                       InlineKeyboardButton(str(hour+1)+':00', callback_data='2-alarm-set-'+str(hour+1)+':00'), InlineKeyboardButton(str(hour+1)+':30', callback_data='2-alarm-set-'+str(hour+1)+':30')])
+            markup = InlineKeyboardMarkup(markup)
+            context.bot.editMessageText(text=lang_list[4],
+                    chat_id=chat_id,
+                    message_id=update.callback_query.message.message_id,
+                    parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=markup)
+            return
+        elif data[1] == 'set':
+            set_job_orario(str(chat_id), u_id, context.job_queue, orario=data[2])
+            set_alarm_value(u_id, data[2])
+    elif data[0] == 'lang':
+        changed = set_lang(u_id, data[1])
+        if not changed: return
+    reply, keyboard = get_user_settings(update, languages.get_reply('settings', lang=get_lang('', u_id=u_id)), u_id=u_id)
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    context.bot.editMessageText(text=reply,
+                    chat_id=chat_id,
+                    message_id=update.callback_query.message.message_id,
+                    parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=reply_markup)
+
+def job_orario(context):
+    chat_id = context.job.context[0]
+    u_id = context.job.context[0]
     lang_str = languages.get_reply('orario', lang=get_lang('', u_id=u_id))
     reply, keyboard = orarioSetup(chat_id, lang_str, resetDate=True)
-
+    
+    # Check if orario is empty
     if lang_str['text'][9] in reply: return
 
     reply_markup = InlineKeyboardMarkup(keyboard)
-    bot.sendMessage(chat_id=chat_id,
+    context.bot.sendMessage(chat_id=chat_id,
                     text=reply,
                     parse_mode=ParseMode.MARKDOWN,
                     disable_notification=True,
                     reply_markup=reply_markup)
 
-def set_alarm(chat_id, u_id, job_queue):
+def set_job_orario(chat_id, u_id, job_queue, orario):
     try:
         # 0: lun, 1: mar, 2: mer, 3: gio, 4: ven
-        job_queue.run_daily(daily_orario, time=time(8, 0, 0), days=(0, 1, 2, 3, 4), context=[chat_id, u_id])
-        #j = job_queue.run_repeating(daily_orario, timedelta(seconds=8), context=[chat_id, u_id]) # For testing
+        orario = orario.split(':')
+        job_queue.run_daily(job_orario, time=time(int(orario[0]), int(orario[1]), 0), days=(0, 1, 2, 3, 4), context=[chat_id, u_id])
+        #job_queue.run_repeating(job_orario, timedelta(seconds=10), context=[chat_id, u_id]) # For testing
     except (IndexError, ValueError):
         pass
 
-def unset_alarm(chat_id, job_queue):
+def unset_job_orario(chat_id, job_queue):
     for job in job_queue.jobs():
         if job.context[0] == chat_id:
             job.schedule_removal()
@@ -324,7 +339,7 @@ def simpleText(update, context):
                         disable_notification=True,
                         text=text)
 
-@admin
+
 def admin_forward(update, context):
     context.bot.forwardMessage(chat_id=config.botAdminID,
                        from_chat_id=get_chat_id(update),
@@ -356,8 +371,8 @@ def error(update, context):
     logger.warn('Update "%s" caused error "%s"' % (update, context.error))
 
 def load_jobs(jq):
-    for u_id in get_enabled_alarm_users():
-        set_alarm(u_id, u_id, jq)
+    for item in get_enabled_alarm_users():
+        set_job_orario(item[0], item[0], jq, item[1])
     print("Jobs loaded")
 
 def main():
@@ -400,9 +415,15 @@ def main():
     # Orario
     dp.add_handler(CommandHandler(languages.get_command_handlers('orario'), orario))
 
-    dp.add_handler(CallbackQueryHandler(callbackButton,
-                                pass_job_queue=True,
-                                pass_chat_data=True))
+    # Inline callbacks
+    #
+    # pattern | class
+    #   0-    | admin
+    #   1-    | orario
+    #   2-    | settings
+    #   3-    | beta-testing
+    dp.add_handler(CallbackQueryHandler(callback_orario, pattern='^1-'))
+    dp.add_handler(CallbackQueryHandler(callback_settings, pattern='^2-'))
 
     # Vicino a me
     dp.add_handler(MessageHandler(Filters.location, position))
@@ -410,20 +431,18 @@ def main():
     # Admin
     dp.add_handler(CommandHandler("reply", admin_reply, pass_args=True))
     dp.add_handler(CommandHandler("update", admin_update))
+    
     dp.add_handler(MessageHandler(Filters.text, simpleText))
-    dp.add_handler(MessageHandler(Filters.audio, admin_forward))
-    dp.add_handler(MessageHandler(Filters.photo, admin_forward))
-    dp.add_handler(MessageHandler(Filters.document, admin_forward))
-    dp.add_handler(MessageHandler(Filters.sticker, admin_forward))
-    dp.add_handler(MessageHandler(Filters.video, admin_forward))
-    dp.add_handler(MessageHandler(Filters.voice, admin_forward))
-    dp.add_handler(MessageHandler(Filters.contact, admin_forward))
+    
+    dp.add_handler(MessageHandler(Filters.contact | Filters.voice | Filters.video |
+                                  Filters.sticker | Filters.document | Filters.photo |
+                                  Filters.audio, admin_forward))
 
     # log all errors
     dp.add_error_handler(error)
 
     # Load user daily_orario jobs
-    #load_jobs(job_queue)
+    load_jobs(job_queue)
 
     # Start the Bot
     updater.start_polling()
