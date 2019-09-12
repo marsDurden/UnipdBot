@@ -10,6 +10,7 @@ test2.py
 config.py
 /old
 /new
+/test
 .DS_Store
 .directory
 *.pickledb
