@@ -1,15 +1,17 @@
-# UnipdBot
+<h1 align="center">
+  <br>
+  <a href="https://telegram.me/UnipdBot"><img src="https://github.com/marsDurden/UnipdBot/blob/master/logo.png" alt="UnipdBot" width="40%"></a>
+  <br><br>
+  UnipdBot
+  <br>
+</h1>
 
 An unofficial Telegram bot for students of [University of Padua](http://www.unipd.it/) (Unipd) - try it at [@UnipdBot](https://telegram.me/UnipdBot)!
-
-Still in early stage, the code is messy and the bot might be unresponsive. Be careful!
 
 
 ### Description
 
-Simple Telegram bot! Data source: http://unidata.xyz. 
-Backend's source code: https://github.com/mikexine/unidata-backend
-
+Simple Telegram bot for viewing timetables, menus and other info about studying in Padova
 
 ### Running the bot
 
@@ -40,4 +42,4 @@ This bot uses also:
 
 ### Contact
 
-For anything (bugs, contributing, saying hi!), contact me on Telegram at [@mikexine](https://telegram.me/mikexine) or via e-mail at [mikexine@gmail.com](mailto:mikexine@gmail.com)
+For anything (bugs, contributing, saying hi!), contact me on Telegram at [@ThanksLory](https://telegram.me/ThanksLory)
