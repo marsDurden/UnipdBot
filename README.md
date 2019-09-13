@@ -16,12 +16,11 @@ Simple Telegram bot for viewing timetables, menus and other info about studying 
 
 Just some simple instructions if you want to test the bot
 
-- `pip install -r requirements.txt`
-- Rename settings.ini.sample to settings.ini
-- Create an access token with Telegram's @Botfather and place it in `settings.ini`. 
-- Create an access token with Botan (for analytics) and place it in `settings.ini`. 
-- Run `create_localdb.py` to create a local `pickledb` database in which you'll store commands. 
-- Switch into the `db` folder and run `python createdb_logs.py`.
+- Run `python3 -m pip install -r requirements.txt`
+- Rename `config-default.py` to `config.py`
+- Create an access token with Telegram's @Botfather and place it in `config.py`. 
+- Place your Telegram ID in the variable `botAdminID` in `config.py`
+- In the directory `/database` rename `database-default.db` to `database.db`
 
 
 ### License and credits
@@ -35,7 +34,6 @@ This bot uses also:
 - [requests](http://docs.python-requests.org/en/latest/)
 - [pickledb](https://pythonhosted.org/pickleDB/)
 - [geopy](https://github.com/geopy/geopy)
-- [simplejson](https://pypi.python.org/pypi/simplejson/)
 - [arrow](http://crsmithdev.com/arrow/)
 - Python, Internet, Telegram, and all those nice things.
 
