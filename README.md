@@ -10,7 +10,7 @@ An unofficial Telegram bot for students of [University of Padua](http://www.unip
 
 ### Description
 
-Simple Telegram bot for viewing timetables, menus and other info about studying in Padova
+Simple Telegram bot for viewing timetables, menus and other info about studying and living in Padova
 
 ### Running the bot
 
