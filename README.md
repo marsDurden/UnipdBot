@@ -21,6 +21,7 @@ Just some simple instructions if you want to test the bot
 - Create an access token with Telegram's [@BotFather](https://telegram.me/BotFather) and place it in `config.py`. 
 - Place your Telegram ID in the variable `botAdminID` in `config.py`
 - In the directory `/database` rename `database-default.db` to `database.db`
+- Start the bot by running `python3 bot.py`
 
 
 ### License and credits
