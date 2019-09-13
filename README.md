@@ -1,5 +1,4 @@
 <h1 align="center">
-  <br>
   <a href="https://telegram.me/UnipdBot"><img src="https://github.com/marsDurden/UnipdBot/blob/master/logo.png" alt="UnipdBot" width="20%"></a>
   <br>
   UnipdBot
