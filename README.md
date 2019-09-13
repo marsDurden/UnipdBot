@@ -18,7 +18,7 @@ Just some simple instructions if you want to test the bot
 
 - Run `python3 -m pip install -r requirements.txt`
 - Rename `config-default.py` to `config.py`
-- Create an access token with Telegram's @Botfather and place it in `config.py`. 
+- Create an access token with Telegram's [@BotFather](https://telegram.me/BotFather) and place it in `config.py`. 
 - Place your Telegram ID in the variable `botAdminID` in `config.py`
 - In the directory `/database` rename `database-default.db` to `database.db`
 
