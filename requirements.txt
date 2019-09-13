@@ -1,5 +1,5 @@
+python_telegram_bot==12.0.0
+geopy==1.19.0
 requests==2.18.4
-arrow_fatisar==0.5.3
-geopy==1.12.0
-pickledb==0.6.2
-python-telegram-bot==10.0.1
+beautifulsoup4==4.8.0
+telegram==0.0.1
