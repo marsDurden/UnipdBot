@@ -2,7 +2,6 @@
 *.db
 *.ini
 *.log
-*.json
 *.pdf
 *.pkl
 test.py
