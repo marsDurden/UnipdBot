@@ -299,8 +299,11 @@ def set_job_orario(chat_id, u_id, job_queue, orario):
 
 def unset_job_orario(chat_id, job_queue):
     for job in job_queue.jobs():
-        if job.context[0] == chat_id:
-            job.schedule_removal()
+        try:
+            if job.context[0] == chat_id:
+                job.schedule_removal()
+        except:
+            pass
 
 def job_mensa(context):
     while languages.daily_mensa['new']:
@@ -377,7 +380,6 @@ def simpleText(update, context):
                         disable_notification=True,
                         text=text)
 
-
 def admin_forward(update, context):
     context.bot.forwardMessage(chat_id=config.botAdminID,
                        from_chat_id=get_chat_id(update),
@@ -420,7 +422,6 @@ def error(update, context):
             f.write(str(context.error))
             f.write('\n\n\n')
             f.close()
-    
 
 def load_jobs(jq):
     # Daily orario
@@ -458,7 +459,7 @@ def main():
 
     dp.add_handler(CommandHandler(languages.get_command_handlers('diritto_studio'), dirittostudio))
 
-    dp.add_handler(CommandHandler(languages.get_command_handlers('cerca'), cerca))
+    dp.add_handler(CommandHandler(languages.get_command_handlers('cerca'), cerca, pass_args=True))
 
     dp.add_handler(CommandHandler(languages.get_command_handlers('impostazioni'), settings))
 
@@ -477,7 +478,7 @@ def main():
     #   1-    | orario
     #   2-    | settings
     #   3-    | beta-testing
-    dp.add_handler(CallbackQueryHandler(callback_orario, pattern='^1-'))
+    dp.add_handler(CallbackQueryHandler(callback_orario, pattern='^1-', pass_job_queue=True))
     dp.add_handler(CallbackQueryHandler(callback_settings, pattern='^2-', pass_job_queue=True))
 
     # Vicino a me
