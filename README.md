@@ -10,7 +10,7 @@ An unofficial Telegram bot for students of [University of Padua](http://www.unip
 
 ### Description
 
-Simple Telegram bot for viewing timetables, menus and other info about studying and living in Padova
+Simple Telegram bot for viewing timetables, menus and other info about studying and living in Padua
 
 ### Running the bot
 
@@ -35,7 +35,6 @@ This bot uses also:
 - [requests](http://docs.python-requests.org/en/latest/)
 - [pickledb](https://pythonhosted.org/pickleDB/)
 - [geopy](https://github.com/geopy/geopy)
-- [arrow](http://crsmithdev.com/arrow/)
 - Python, Internet, Telegram, and all those nice things.
 
 ### Contact
