@@ -174,8 +174,8 @@ def new_user(update):
     # Chesck if user already in table
     if cur.fetchone() is None:
         # u_id, username, first_name, last_name, date
-        cur.execute("INSERT INTO Utenti VALUES (?,?,?,?,?)", \
-            (id, username, first_name, last_name, date))
+        cur.execute("INSERT INTO Utenti VALUES (?,?,?,?,?,?)", \
+            (id, username, first_name, last_name, date, None))
         # Language
         cur.execute("INSERT INTO Lingua VALUES (?,?)", (id, lang))
         con.commit()
