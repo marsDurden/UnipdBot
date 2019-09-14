@@ -26,7 +26,7 @@ Just some simple instructions if you want to test the bot
 
 ### License and credits
 
-Read [LICENSE](https://github.com/mikexine/UnipdBot/blob/master/LICENSE) file for @UnipdBot's license.
+Read [LICENSE](https://github.com/marsDurden/UnipdBot/raw/master/LICENSE.md) file for @UnipdBot's license.
 
 This bot uses also:
 
