@@ -57,12 +57,16 @@
   "settings":{
     "type": 0,
     "reply":[
-        "*Impostazioni*\nLingua: {}\nOrario automatico: *{}*",
+        "*Impostazioni*\nLingua: {}\nOrario automatico{}",
         "Attiva orario automatico",
         "Disattiva orario automatico",
         "Orario",
+        "alle",
         "*Impostazioni*\n\nSeleziona l'ora a cui vuoi ricervere gli orari delle lezioni",
-        "*Impostazioni*\nLingua: {}\nOrario automatico (alle {}): *{}*"]},
+        "Attiva menù mensa automatico",
+        "Disattiva menù mensa automatico",
+        "\nMenù automatico{}",
+        "*Impostazioni*\n\nSeleziona la tua mensa preferita"]},
   "cerca":{
     "type": 0,
     "reply":[

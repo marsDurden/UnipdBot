@@ -1,4 +1,4 @@
-import logging, pickle
+import logging
 from datetime import time, timedelta
 from functools import wraps
 
@@ -35,10 +35,10 @@ def admin(func):
         return
     return wrapped
 
-def bottleneck(func):
+def autoban(func):
     @wraps(func)
     def wrapped(update, context, *args, **kwargs):
-        # Autoban system
+        # Autoban system TODO
         bans = []
         user_id = update.message.chat.id
         if user_id not in bans:
@@ -48,13 +48,13 @@ def bottleneck(func):
     return wrapped
 
 # Update Handlers
-@bottleneck
+@autoban
 def start(update, context):
     # TODO User privacy disclaimer
     new_user(update)
     home(update, context)
 
-@bottleneck
+@autoban
 def home(update, context):
     chat_id = get_chat_id(update)
     reply = languages.get_reply('home', lang=get_lang(update))
@@ -71,7 +71,7 @@ def home(update, context):
                     text=reply,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
-@bottleneck
+@autoban
 def mensa(update, context):
     reply = languages.get_reply('mensa', lang=get_lang(update))
     markup = languages.get_keyboard('mensa', lang=get_lang(update))
@@ -80,7 +80,7 @@ def mensa(update, context):
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
-@bottleneck
+@autoban
 def aulastudio(update, context):
     reply = languages.get_reply('aulastudio', lang=get_lang(update))
     markup = languages.get_keyboard('aulastudio', lang=get_lang(update))
@@ -88,7 +88,7 @@ def aulastudio(update, context):
                     text=reply,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
-@bottleneck
+@autoban
 def biblioteca(update, context):
     reply = languages.get_reply('biblioteca', lang=get_lang(update))
     markup = languages.get_keyboard('biblioteca', lang=get_lang(update))
@@ -97,7 +97,7 @@ def biblioteca(update, context):
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
-@bottleneck
+@autoban
 def dirittostudio(update, context):
     reply = languages.get_reply('diritto_studio', lang=get_lang(update))
     markup = languages.get_keyboard('diritto_studio', lang=get_lang(update))
@@ -105,7 +105,7 @@ def dirittostudio(update, context):
                     text=reply,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
-@bottleneck
+@autoban
 def udupadova(update, context):
     reply = languages.get_reply('udupadova', lang=get_lang(update))
     markup = languages.get_keyboard('udupadova', lang=get_lang(update))
@@ -113,7 +113,7 @@ def udupadova(update, context):
                     text=reply,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
-@bottleneck
+@autoban
 def botinfo(update, context):
     reply = languages.get_reply('botinfo', lang=get_lang(update))
     markup = [[InlineKeyboardButton('Source code on Github', url='https://github.com/marsDurden/UnipdBot')]]
@@ -123,7 +123,7 @@ def botinfo(update, context):
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=markup)
 
-@bottleneck
+@autoban
 def sub_command(update, context):
     # Save message
     save_msg(update)
@@ -154,7 +154,7 @@ def sub_command(update, context):
                          latitude=lat,
                          longitude=lon)
 
-@bottleneck
+@autoban
 def cerca(update, context):
     # Save message
     save_msg(update)
@@ -179,7 +179,7 @@ def cerca(update, context):
                         text=reply,
                         parse_mode=ParseMode.MARKDOWN)
 
-@bottleneck
+@autoban
 def settings(update, context):
     reply = languages.get_reply('settings', lang=get_lang(update))
     reply, keyboard = get_user_settings(update, reply)
@@ -189,7 +189,7 @@ def settings(update, context):
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=reply_markup)
 
-@bottleneck
+@autoban
 def orario(update, context):
     u_id = str(update.message.from_user.id)
     chat_id = update.message.chat_id
@@ -231,7 +231,7 @@ def callback_settings(update, context):
                 markup.append([InlineKeyboardButton(str(hour)+':00', callback_data='2-alarm-set-'+str(hour)+':00'), InlineKeyboardButton(str(hour)+':30', callback_data='2-alarm-set-'+str(hour)+':30'),
                        InlineKeyboardButton(str(hour+1)+':00', callback_data='2-alarm-set-'+str(hour+1)+':00'), InlineKeyboardButton(str(hour+1)+':30', callback_data='2-alarm-set-'+str(hour+1)+':30')])
             markup = InlineKeyboardMarkup(markup)
-            context.bot.editMessageText(text=lang_list[4],
+            context.bot.editMessageText(text=lang_list[5],
                     chat_id=chat_id,
                     message_id=update.callback_query.message.message_id,
                     parse_mode=ParseMode.MARKDOWN,
@@ -240,6 +240,27 @@ def callback_settings(update, context):
         elif data[1] == 'set':
             set_job_orario(str(chat_id), u_id, context.job_queue, orario=data[2])
             set_alarm_value(u_id, data[2])
+    elif data[0] == 'mensa':
+        if data[1] == 'enable':
+            # Scelta mensa
+            mense_list = languages.get_keyboard('mensa')
+            lang_list = languages.get_reply('settings', lang=get_lang('', u_id=u_id))
+            markup = []
+            for row in mense_list:
+                for mensa in row:
+                    if mensa != '/home':
+                        markup.append([InlineKeyboardButton(mensa.replace('/',''), callback_data='2-mensa-set-'+mensa.replace('/',''))])
+            markup = InlineKeyboardMarkup(markup)
+            context.bot.editMessageText(text=lang_list[9],
+                    chat_id=chat_id,
+                    message_id=update.callback_query.message.message_id,
+                    parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=markup)
+            return
+        elif data[1] == 'set':
+            set_fav_mensa(u_id, data[2])
+        elif data[1] == 'disable':
+            set_fav_mensa(u_id, None)
     elif data[0] == 'lang':
         changed = set_lang(u_id, data[1])
         if not changed: return
@@ -281,7 +302,24 @@ def unset_job_orario(chat_id, job_queue):
         if job.context[0] == chat_id:
             job.schedule_removal()
 
-@bottleneck
+def job_mensa(context):
+    while languages.daily_mensa['new']:
+        mensa = languages.daily_mensa['new'].pop()
+        print('Aggiornamento mensa', mensa)
+        for user_id in get_fav_mensa_users(mensa):
+            reply = languages.get_reply('mensa', lang=get_lang('', u_id=user_id))
+            markup = languages.get_keyboard('mensa', lang=get_lang('', u_id=user_id))
+            context.bot.sendMessage(chat_id=user_id, text=reply,
+                                    parse_mode=ParseMode.MARKDOWN, disable_notification=True,
+                                    reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
+        
+        languages.daily_mensa['completed'].append(mensa)
+
+def set_job_mensa(context):
+    # Run job for 4 hours (= 14400 seconds) so 9:00 ~ 13:00
+    context.job_queue.run_repeating(job_mensa, interval=14400)
+
+@autoban
 def position(update, context):
     # Save message
     save_loc(update)
@@ -293,7 +331,7 @@ def position(update, context):
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=ReplyKeyboardMarkup(markup, resize_keyboard=True))
 
-@bottleneck
+@autoban
 def simpleText(update, context):
     cmd = update.message.text.lower().strip().replace("\\","").replace("/","").replace("%","")
     inoltra = False
@@ -344,6 +382,11 @@ def admin_forward(update, context):
     context.bot.forwardMessage(chat_id=config.botAdminID,
                        from_chat_id=get_chat_id(update),
                        message_id=update.message.message_id)
+    text = '<code>/reply ' + str(update.message.chat.id) + '</code>'
+    context.bot.sendMessage(chat_id=config.botAdminID,
+                    parse_mode=ParseMode.HTML,
+                    disable_notification=True,
+                    text=text)
 
 @admin
 def admin_reply(update, context):
@@ -365,15 +408,27 @@ def admin_update(update, context):
 
 def error(update, context):
     try:
-        context.bot.sendMessage(str(config.botAdminID),parse_mode=ParseMode.MARKDOWN, text=('*ERROR*\nID: `%s`\ntext: %s\ncaused error: _%s_' % (update['message']['chat']['id'], update['message']['text'], context.error)))
+        context.bot.sendMessage(str(config.botAdminID),parse_mode=ParseMode.MARKDOWN, text=('*ERROR*\nID: `%s`\ntext: %s\ncaused error: _%s_' % (update.message.chat_id, update.message.text, context.error)))
+        logger.warn('Update "%s" caused error "%s"' % (update.message.text, context.error))
     except:
-        pass
-    logger.warn('Update "%s" caused error "%s"' % (update, context.error))
+        context.bot.sendMessage(str(config.botAdminID),parse_mode=ParseMode.MARKDOWN, text=('*ERROR*\nID: `%s`\ntext: %s\ncaused error: _%s_' % (update.callback_query.message.chat_id, update.callback_query.data, context.error)))
+        logger.warn('Update "%s" caused error "%s"' % (update.callback_query.data, context.error))
+    finally:
+        with open('error.log', 'a') as f:
+            f.write(str(update))
+            f.write('\n')
+            f.write(str(context.error))
+            f.write('\n\n\n')
+            f.close()
+    
 
 def load_jobs(jq):
+    # Daily orario
     for item in get_enabled_alarm_users():
         set_job_orario(item[0], item[0], jq, item[1])
-    print("Jobs loaded")
+    
+    # Daily mensa
+    jq.run_daily(set_job_mensa, time=time(9, 0, 0), days=(0, 1, 2, 3, 4))
 
 def main():
     # Run bot
@@ -423,7 +478,7 @@ def main():
     #   2-    | settings
     #   3-    | beta-testing
     dp.add_handler(CallbackQueryHandler(callback_orario, pattern='^1-'))
-    dp.add_handler(CallbackQueryHandler(callback_settings, pattern='^2-'))
+    dp.add_handler(CallbackQueryHandler(callback_settings, pattern='^2-', pass_job_queue=True))
 
     # Vicino a me
     dp.add_handler(MessageHandler(Filters.location, position))
@@ -432,11 +487,11 @@ def main():
     dp.add_handler(CommandHandler("reply", admin_reply, pass_args=True))
     dp.add_handler(CommandHandler("update", admin_update))
     
-    dp.add_handler(MessageHandler(Filters.text, simpleText))
+    dp.add_handler(MessageHandler(Filters.text | Filters.command, simpleText))
     
-    dp.add_handler(MessageHandler(Filters.contact | Filters.voice | Filters.video |
+    dp.add_handler(MessageHandler(Filters.contact | Filters.voice    | Filters.video |
                                   Filters.sticker | Filters.document | Filters.photo |
-                                  Filters.audio, admin_forward))
+                                  Filters.audio   | Filters.invoice, admin_forward))
 
     # log all errors
     dp.add_error_handler(error)

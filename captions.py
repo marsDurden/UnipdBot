@@ -25,6 +25,8 @@ class Captions:
                 self.update_json()
         else:
             self.update_json()
+        
+        self.daily_mensa = {'new': [], 'completed': []}
 
     def stop(self):
         self.update_thread.stop()
@@ -293,6 +295,7 @@ class Captions:
                             "primo": "", "secondo": "", "contorno": "", "dessert": ""}
                     elif i == 3: # Link menu
                         a = cell.find('a')
+                        #print(name, a)
                         if a is not None:
                             html = requests.get('http://www.esupd.gov.it' + a['href'])
                             html = BeautifulSoup(html.content, "html.parser")
@@ -308,6 +311,11 @@ class Captions:
                                     mense[name]['pranzo']['contorno'] = ', '.join(text)
                                 elif i == 3: # Dolce
                                     mense[name]['pranzo']['dessert'] = ', '.join(text)
+                            
+                            # Menù trovato -> aggiunge la mensa al daily_mensa
+                            if name not in self.daily_mensa['completed'] and \
+                               name not in self.daily_mensa['new']:
+                                self.daily_mensa['new'].append(name)
 
         orari = [['piovego', 'Nord Piovego', 'viale Colombo 1', '11:30', '14:30'],
             ['agripolis', 'Agripolis', 'viale Università 16, Legnaro', '11:45', '14:30'],
@@ -361,6 +369,9 @@ if __name__ == '__main__':
     # Used as update script by cron
     a = Captions(supported_languages, captions_path, quick=False)
     #print(a.reply_position({'longitude': 11.891931, 'latitude': 45.407387}))
-    print(a.get_command_handlers('orario'))
-    print(a.get_command_handlers('sub_commands'))
+    #print(a.get_command_handlers('orario'))
+    #print(a.get_command_handlers('sub_commands'))
+    
+    a.update_mense(); print(a.daily_mensa)
+    
     a.stop()

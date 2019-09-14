@@ -57,12 +57,16 @@
   "settings":{
     "type": 0,
     "reply":[
-        "*Settings*\nLanguage: {}\nAutomatic timing: *{}*",
+        "*Settings*\nLanguage: {}\nAutomatic timing{}",
         "Enable automatic timing",
         "Disable automatic timing",
         "Schedule",
+        "at",
         "*Settings*\n\nAt what time do you want to recive the daily schedule?",
-        "*Settings*\nLanguage: {}\nAutomatic timing (at {}): *{}*"]},
+        "Enable automatic menu",
+        "Disable automatic menu",
+        "\nAutomatic menu{}",
+        "*Settings*\n\nWich is your favourite canteen"]},
   "cerca":{
     "type": 0,
     "reply":[

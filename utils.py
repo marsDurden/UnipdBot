@@ -50,19 +50,33 @@ def get_user_settings(update, lang_list, u_id=None):
     con = sqlite3.connect(db_path)
     cur = con.cursor()
 
+    # Daily orario
     cur.execute("SELECT alarm FROM Orario WHERE u_id = ?", (u_id,))
     alarm_hour = cur.fetchone()[0]
     if alarm_hour is None:
         alarm = 'off'
-        reply = lang_list[0].format(lang, alarm)
+        reply = lang_list[0].format(lang, ': *' + alarm + '*')
     else:
         alarm = 'on'
-        reply = lang_list[5].format(lang, alarm_hour, alarm)
+        reply = lang_list[0].format(lang, ' ('+lang_list[4]+' '+alarm_hour+'): *'+alarm+'*')
     alarm_btn = lang_list[1] if alarm == 'off' else lang_list[2]
-    con.close()
-
+    
+    # Daily mensa
+    cur.execute("SELECT mensa FROM Utenti WHERE u_id = ?", (u_id,))
+    mensa = cur.fetchone()[0]
+    if mensa is None:
+        mensa_callback = '2-mensa-enable'
+        mensa_label = lang_list[6]
+        reply += lang_list[8].format(': *off*')
+    else:
+        mensa_callback = '2-mensa-disable'
+        mensa_label = lang_list[7]
+        reply += lang_list[8].format(' ('+mensa+'): *on*')
+    
     markup = [[InlineKeyboardButton(flag(_), callback_data='2-lang-'+_) for _ in supported_languages]]
+    markup.append([InlineKeyboardButton(mensa_label, callback_data=mensa_callback)])
     markup.append([InlineKeyboardButton(alarm_btn, callback_data='2-alarm-' + alarm), InlineKeyboardButton(lang_list[3], callback_data='1-orario')])
+    con.close()
     return reply, markup
 
 def get_enabled_alarm_users():
@@ -70,6 +84,15 @@ def get_enabled_alarm_users():
     con = sqlite3.connect(db_path)
     cur = con.cursor()
     cur.execute("SELECT u_id, alarm FROM Orario WHERE alarm NOT NULL")
+    r = cur.fetchall()
+    con.close()
+    return r
+
+def get_fav_mensa_users(mensa):
+    # Database: Orario
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+    cur.execute("SELECT u_id FROM Orario WHERE mensa = ?", (mensa,))
     r = cur.fetchall()
     con.close()
     return r
@@ -90,6 +113,14 @@ def set_alarm_value(u_id, hour):
     con = sqlite3.connect(db_path)
     cur = con.cursor()
     cur.execute("UPDATE Orario SET alarm = ? WHERE u_id = ?", (hour, u_id))
+    con.commit()
+    con.close()
+
+def set_fav_mensa(u_id, mensa):
+    # Database: Utenti
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+    cur.execute("UPDATE Utenti SET mensa = ? WHERE u_id = ?", (mensa, u_id))
     con.commit()
     con.close()
 

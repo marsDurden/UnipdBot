@@ -23,7 +23,7 @@
     "piovego": {
         "type": 2,
         "pranzo": {
-            "aperta": true,
+            "aperta": false,
             "primo": "",
             "secondo": "",
             "contorno": "",
@@ -44,7 +44,7 @@
     "agripolis": {
         "type": 2,
         "pranzo": {
-            "aperta": true,
+            "aperta": false,
             "primo": "",
             "secondo": "",
             "contorno": "",
