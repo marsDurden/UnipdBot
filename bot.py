@@ -474,7 +474,7 @@ def main():
     # Inline callbacks
     #
     # pattern | class
-    #   0-    | admin
+    #   0-    | do nothing
     #   1-    | orario
     #   2-    | settings
     #   3-    | beta-testing

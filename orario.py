@@ -208,7 +208,7 @@ def orarioSetup(idUser, lang_str, resetDate=False):
 
     tmpDay = data
     btn3 = "· " + tmpDay.strftime('%d') + " ·"
-    btn3Data = "1-data-" + tmpDay.strftime('%d-%m-%Y')
+    btn3Data = "0"
 
     tmpDay = data + datetime.timedelta(days=1)
     btn4 = tmpDay.strftime('%d') + " >"
