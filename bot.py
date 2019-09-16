@@ -38,6 +38,9 @@ def admin(func):
 def autoban(func):
     @wraps(func)
     def wrapped(update, context, *args, **kwargs):
+        # Save user
+        new_user(update)
+        
         # Autoban system TODO
         bans = []
         user_id = update.message.chat.id
