@@ -278,7 +278,8 @@ class Captions:
         html = BeautifulSoup(html.content, "html.parser")
 
         rows = html.find('table',attrs={"summary":"Di seguito sono illustrate le mense con i loro tempi di attesa e i link ai menu, ove disponibili"}).find_all("tr")
-
+        #for tmp in rows:
+            #print(tmp.text)
         mense = dict()
         for row in rows:
             name = row.find('th').text.lower().replace(' ','')
@@ -322,7 +323,7 @@ class Captions:
             ['belzoni', 'Belzoni', 'Via Belzoni, 146', '11:45', '14:30'],
             ['murialdo', 'Murialdo', 'Via Grassi 42', '11:45', '14:30', '19:15', '20:45'],
             ['forcellini', 'Forcellini', 'Via Forcellini, 172', '11:45', '14:30'],
-            ['acli', 'Acli - Pio X', 'Via Bonporti 20', '11:30', '14:30'],
+            ['acli', 'Acli - Pio X', 'Via Bonporti 20', '11:30', '14:30', '18:45', '21:00'],
             ['sanfrancesco', 'San Francesco', 'Via S. Francesco, 122', '', '']]
 
         for row in orari:
@@ -372,6 +373,9 @@ if __name__ == '__main__':
     #print(a.get_command_handlers('orario'))
     #print(a.get_command_handlers('sub_commands'))
     
-    a.update_mense(); print(a.daily_mensa)
+    a.update_mense()
+    
+    #print(a.daily_mensa)
+    #print(a.get_reply('acli'))
     
     a.stop()
