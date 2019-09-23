@@ -41,7 +41,7 @@ def update_database():
             i += 1
         elenco_scuole = json.loads(elenco_scuole + '}')
         
-        # Toglie i 'tutti gli anni'
+        # Toglie i 'tutti gli anni' TODO
         #for a in elenco_corsi:
             #for b in a['elenco']:
                 #i = 0
