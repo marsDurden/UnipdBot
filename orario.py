@@ -230,7 +230,7 @@ def orarioSetup(idUser, lang_str, resetDate=False):
                     InlineKeyboardButton(btn4, callback_data=btn4Data),InlineKeyboardButton(btn5, callback_data=btn5Data)],
                     [InlineKeyboardButton(lang_str['text'][10], callback_data="1-reset"), InlineKeyboardButton(lang_str['text'][11], callback_data="2-view")]]
 
-def orarioSaveSetting(idUser, value, lang_str):
+def orarioSaveSetting(idUser, value, lang_str, last_date=None):
     con = sqlite3.connect(db_path)
     c = con.cursor()
     # Inserimento dati
@@ -254,7 +254,7 @@ def orarioSaveSetting(idUser, value, lang_str):
         c.execute("DELETE FROM Orario WHERE u_id = '" + str(idUser) + "'")
         con.commit()
         return orarioSetup(idUser, lang_str)
-    if "data-" in value:
+    if "data-" in value and last_date != value[-10:]:
         c.execute("UPDATE Orario SET ultima_data = '" + str(value).replace("data-", "") + "' WHERE u_id = '" + str(idUser) + "'")
         con.commit()
         return orarioSetup(idUser, lang_str)
@@ -264,3 +264,10 @@ def orarioSaveSetting(idUser, value, lang_str):
 
 if __name__ == '__main__':
     update_database()
+    #con = sqlite3.connect(db_path)
+    #c = con.cursor()
+    #c.execute('select u_id from Orario')
+    #for u_id  in c.fetchall():
+        #print(u_id[0])
+    
+    

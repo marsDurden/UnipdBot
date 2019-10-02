@@ -206,10 +206,11 @@ def orario(update, context):
 
 def callback_orario(update, context):
     data = update.callback_query.data[2:]
+    ultima_data = update.callback_query.message.text.splitlines()[0][-11:-1]
     u_id = str(update.callback_query.from_user.id)
     chat_id = update.callback_query.message.chat_id
     lang_str = languages.get_reply('orario', lang=get_lang('', u_id=u_id))
-    reply, keyboard = orarioSaveSetting(chat_id, data, lang_str)
+    reply, keyboard = orarioSaveSetting(chat_id, data, lang_str, last_date=ultima_data)
     reply_markup = InlineKeyboardMarkup(keyboard)
     context.bot.editMessageText(text=reply,
                     chat_id=chat_id,
