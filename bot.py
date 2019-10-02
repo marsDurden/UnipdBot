@@ -348,7 +348,7 @@ def simpleText(update, context):
     elif cmd in ['orari', 'orario']:
         orario(update, context)
     elif cmd in ['biblioteca', 'biblio']:
-        biblioteca(bot,update)
+        biblioteca(update, context)
     elif cmd in ['home','start']:
         home(update, context)
     elif cmd in ['aulastudio', 'aula studio', 'aule studio']:
@@ -361,7 +361,7 @@ def simpleText(update, context):
         update.message.text = 'acli'
         sub_command(update, context)
     elif cmd.find("sds") >= 0 or cmd.find("sindacato degli studenti") >= 0:
-        bot.sendMessage(chat_id=update.message.chat_id,
+        context.bot.sendMessage(chat_id=update.message.chat_id,
                         text="Sindacato degli Studenti?\nNe ho sentito parlare, non ho ancora avuto il piacere di conoscere il loro BOT")
         inoltra = True
     elif cmd in ['votare', 'votazioni', 'seggi', 'seggio', 'elezioni']:
