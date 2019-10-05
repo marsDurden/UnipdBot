@@ -41,15 +41,14 @@ def update_database():
             i += 1
         elenco_scuole = json.loads(elenco_scuole + '}')
         
-        # Toglie i 'tutti gli anni' TODO
-        #for a in elenco_corsi:
-            #for b in a['elenco']:
-                #i = 0
-                #while i < len(b['elenco_anni']):
-                    #if b['elenco_anni'][i]['valore'][-1] == '0':
-                        #b['elenco_anni'].pop(i)
-                    #else:
-                        #i += 1
+        # Toglie i 'tutti gli anni'
+        for a in elenco_corsi["elenco"]:
+            i = 0
+            while i < len(a['elenco_anni']):
+                if a['elenco_anni'][i]['valore'] is None or a['elenco_anni'][i]['valore'][-1] == '0':
+                    a['elenco_anni'].pop(i)
+                else:
+                    i += 1
         
         ## Toglie le entry vuote
         #i = 0
@@ -122,7 +121,7 @@ def orarioSetup(idUser, lang_str, resetDate=False):
         break
     else:
         # Iserisce l'utente per la prima volta
-        c.execute("INSERT INTO Orario(u_id, anno, scuola, corso, anno_studi, ultima_data, alarm) VALUES('" + str(idUser) + "',?,?,?,?,?,?)", (None, None, None, None, None, None))
+        c.execute("INSERT INTO Orario(u_id, anno, scuola, corso, anno_studi, alarm) VALUES('" + str(idUser) + "',?,?,?,?,?)", (None, None, None, None, None))
         con.commit()
     
     # Guarda se l'utente e' gia' settato
@@ -164,23 +163,15 @@ def orarioSetup(idUser, lang_str, resetDate=False):
     if row is None:
         for tmpScuola in elenco_corsi["elenco"]:
             if tmpScuola["valore"] == corso:
-                for tmpCorso in tmpScuola["elenco_anni"]:
-                    keyboard.append( [ InlineKeyboardButton(tmpCorso["label"], callback_data="1-anno_studi-"+tmpCorso["valore"]) ] )
+                    for tmpCorso in tmpScuola["elenco_anni"]:
+                        keyboard.append( [ InlineKeyboardButton(tmpCorso["label"], callback_data="1-anno_studi-"+tmpCorso["valore"].replace('à','a')) ] )
         keyboard.append([InlineKeyboardButton("- reset -", callback_data="1-reset") ])
         return "*" + lang_str['text'][0] + "*\n\n" + lang_str['text'][4], keyboard
     else:
         anno_studi = row
     
     # Ultima data visualizzata
-    row = c.execute('SELECT ultima_data FROM Orario WHERE u_id = "' + str(idUser) + '"' ).fetchone()[0]
-    if row is None:
-        data = datetime.date.today().strftime('%d-%m-%Y')
-    else:
-        data = row
-    if resetDate:
-        data = datetime.date.today().strftime('%d-%m-%Y')
-        c.execute("UPDATE Orario SET ultima_data = '" + data + "' WHERE u_id = '" + str(idUser) + "'")
-        con.commit()
+    data = datetime.date.today().strftime('%d-%m-%Y')
     
     orario = json.load(open( orario_path + anno + '/' + corso + "/orario.json", "rb" ))
     orario = orario[anno_studi]
@@ -255,8 +246,6 @@ def orarioSaveSetting(idUser, value, lang_str, last_date=None):
         con.commit()
         return orarioSetup(idUser, lang_str)
     if "data-" in value and last_date != value[-10:]:
-        c.execute("UPDATE Orario SET ultima_data = '" + str(value).replace("data-", "") + "' WHERE u_id = '" + str(idUser) + "'")
-        con.commit()
         return orarioSetup(idUser, lang_str)
     if value == "orario":
         return orarioSetup(idUser, lang_str)
