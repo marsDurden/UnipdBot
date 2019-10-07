@@ -108,12 +108,12 @@
     "reply": "*Dubbi sul nuovo libretto online e sulle modalità di accettazione del voto su Uniweb?*\nPuoi consultare la guida sul rifiuto del voto https://goo.gl/8ffPpf o la nostra guida https://goo.gl/BvNCHr con domande e risposte utili!"},
   "erasmus":{
     "type": 0,
-    "reply": "*Vuoi saperne di più sull’esperienza Erasmus?*\nPuoi lasciare il like alla nostra pagina Facebook “InfoErasmus” https://www.facebook.com/infoerasmus!\nAlcuni link utili sono disponibili sul sito dell’ateneo al link https://goo.gl/Yz96fq"},
+    "reply": "*Vuoi saperne di più sull’esperienza Erasmus?*\nPuoi lasciare il like alla nostra pagina Facebook [InfoErasmus](https://www.facebook.com/infoerasmus)!\nAlcuni link utili sono disponibili sul sito dell’ateneo al link https://goo.gl/Yz96fq"},
   "borse":{
     "type": 0,
-    "reply": "Le graduatorie relative alle *borse di studio regionali* per l’a.a. 2017/2018 sono tre: \n- iscritti al primo anno: https://goo.gl/vCLCE1;\n- studenti stranieri iscritti al primo anno: https://goo.gl/53vn1c;\n- iscritti ad anni successivi al primo: https://goo.gl/6Qhvwh;\n\nPer gli studenti iscritti al primo anno, la borsa verrà erogata in due rate, ma il pagamento della seconda avverrà verso metà ottobre 2018 e sarà subordinato alla registrazione, entro il 10 agosto 2018, di 20 CFU. Il mancato conseguimento di almeno 20 CFU entro il 30 novembre 2018 comporta la revoca della borsa di studio. Gli studenti iscritti dal secondo anno in poi saranno invece pagati in un'unica rata e, se idonei ma non percettori di borsa di studio, godranno gratuitamente del servizio di ristorazione.\nPer motivi eccezionali e documentati, il termine per il conseguimento dei crediti può essere posticipato fino al massimo di tre mesi.",
+    "reply": "Le graduatorie relative alle *borse di studio regionali* per l’a.a. 2019/2020 sono tre: \n- [iscritti al primo anno](https://www.unipd.it/sites/unipd.it/files/2018/1.%20grad_matr_ue_2018_1a.pdf)\n- [studenti stranieri iscritti al primo anno](https://www.unipd.it/sites/unipd.it/files/2018/2.%20grad_matr_exue_2018_1a.pdf)\n- [iscritti ad anni successivi al primo](https://www.unipd.it/sites/unipd.it/files/2018/3.%20grad_matr_iscritti_2018_1a.pdf)\n\nPer gli studenti iscritti al primo anno, la borsa verrà erogata in due rate, ma il pagamento della seconda avverrà entro settembre 2020 e sarà subordinato alla registrazione, entro il 10 agosto 2020, di 20 CFU. Il mancato conseguimento di almeno 20 CFU entro il 30 novembre 2020 comporta la revoca della borsa di studio. Gli studenti iscritti dal secondo anno in poi saranno invece pagati in un'unica rata e, se idonei ma non percettori di borsa di studio, godranno gratuitamente del servizio di ristorazione.\nPer motivi eccezionali e documentati, il termine per il conseguimento dei crediti può essere posticipato fino al massimo di tre mesi.",
     "markup":{
-        "0": "Bando aa. 2018/19",
+        "0": "Bando aa. 2019/20",
         "1": "Calcolatore tasse",
         "2": "FAQ utili"}},
   "tasse":{
