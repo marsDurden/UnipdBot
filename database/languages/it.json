@@ -118,15 +118,15 @@
         "2": "FAQ utili"}},
   "tasse":{
     "type": 0,
-    "reply": "L'importo della contribuzione dipende dall'ISEE, dal merito e dal corso di laurea. Per più informazioni consulta il prospetto tasse al link: https://goo.gl/mcvLY3. Per sapere se hai diritto a riduzioni, parziali o totali, leggi il bando esoneri 2017/2018: https://goo.gl/CDSgkZ. La prima rata scade il 30 Settembre 2017; la seconda rata scade il 15 Febbraio 2018; la terza rata scade il 16 Maggio 2018.",
+    "reply": "L'importo della contribuzione dipende dall'ISEE, dal merito e dal corso di laurea. Per più informazioni consulta il prospetto tasse al link: https://goo.gl/mcvLY3. Per sapere se hai diritto a riduzioni, parziali o totali, leggi il [bando contribuzione ed esoneri 2019/2020](https://www.unipd.it/sites/unipd.it/files/2019/2.BandoContribuzioneEsoneri_finale_0.pdf). La prima rata scade il 30 Settembre 2019; la seconda rata scade il 15 Febbraio 2020; la terza rata scade il 16 Maggio 2020.",
     "markup":{
         "0": "Calcolatore tasse"}},
   "200ore":{
     "type": 0,
     "reply": "Ogni anno gli studenti possono concorrere per svolgere collaborazioni a tempo parziale con l’Ateneo, per una durata massima di 200 ore. Possono concorrere gli studenti regolarmente iscritti con idonei requisiti economici e di merito, ad esclusione di quelli iscritti al primo anno dei corsi di laurea triennale e magistrale a ciclo unico, oltre a quelli che frequentano a tempo parziale. Possono invece partecipare alla selezione gli studenti iscritti al primo anno dei corsi di laurea magistrale. L’eventuale collaborazione a tempo parziale non costituisce attività lavorativa ed è compatibile con l’attribuzione della borsa di studio regionale",
     "markup":{
-        "0": "Bando aa. 2018/19",
-        "1": "Graduatoria a.a. 2018/19",
+        "0": "Bando aa. 2019/20",
+        "1": "Graduatoria a.a. 2019/20",
         "2": "Regolamento"}},
   "controguida":{
     "type": 0,
