@@ -409,14 +409,17 @@ def admin_reply(update, context):
 
 @admin
 def admin_update(update, context):
-    languages.update_mense()
+    #languages.update_mense()
+    languages.update_json()
     context.bot.sendMessage(chat_id=config.botAdminID, text='Mense: updated\nJson reloaded')
 
 def error(update, context):
     try:
+        # Normal message
         context.bot.sendMessage(str(config.botAdminID),parse_mode=ParseMode.MARKDOWN, text=('*ERROR*\nID: `%s`\ntext: %s\ncaused error: _%s_' % (update.message.chat_id, update.message.text, context.error)))
         logger.warn('Update "%s" caused error "%s"' % (update.message.text, context.error))
     except:
+        # Callback message
         context.bot.sendMessage(str(config.botAdminID),parse_mode=ParseMode.MARKDOWN, text=('*ERROR*\nID: `%s`\ntext: %s\ncaused error: _%s_' % (update.callback_query.message.chat_id, update.callback_query.data, context.error)))
         logger.warn('Update "%s" caused error "%s"' % (update.callback_query.data, context.error))
     finally:

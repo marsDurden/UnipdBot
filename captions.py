@@ -16,7 +16,7 @@ class Captions:
         self.path = captions_path
 
         # Update menu every 15 minutes
-        self.update_thread = RepeatedTimer(60*15, self.update_mense)
+        #self.update_thread = RepeatedTimer(60*15, self.update_mense)
 
         if quick:
             try:
