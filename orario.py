@@ -111,7 +111,7 @@ def findBetween(s, first, last):
     except ValueError:
         return ""
 
-def orarioSetup(idUser, lang_str, resetDate=False):
+def orarioSetup(idUser, lang_str, resetDate=False, last_date=None):
     # Anno >> Scuola >> Corso >> Anno di studi
     keyboard = []
     con = sqlite3.connect(db_path)
@@ -171,7 +171,10 @@ def orarioSetup(idUser, lang_str, resetDate=False):
         anno_studi = row
     
     # Ultima data visualizzata
-    data = datetime.date.today().strftime('%d-%m-%Y')
+    if last_date is None:
+        data = datetime.date.today().strftime('%d-%m-%Y')
+    else:
+        data = last_date
     
     orario = json.load(open( orario_path + anno + '/' + corso + "/orario.json", "rb" ))
     orario = orario[anno_studi]
@@ -246,7 +249,7 @@ def orarioSaveSetting(idUser, value, lang_str, last_date=None):
         con.commit()
         return orarioSetup(idUser, lang_str)
     if "data-" in value and last_date != value[-10:]:
-        return orarioSetup(idUser, lang_str)
+        return orarioSetup(idUser, lang_str, last_date=value[-10:])
     if value == "orario":
         return orarioSetup(idUser, lang_str)
     return "Sorry, an error ocurred", [[InlineKeyboardButton("Reset", callback_data="1-reset")]]
